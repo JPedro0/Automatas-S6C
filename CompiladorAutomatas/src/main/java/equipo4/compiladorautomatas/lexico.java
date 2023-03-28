@@ -65,51 +65,53 @@ public class lexico {
                 }
                 else{
                     switch ((char) caracter){
-                        case '+' : columna = ;
+                        case '.' : columna = 2;
                         break;
-                        case '-' : columna = ;
+                        case '+' : columna = 3;
                         break;
-                        case '*' : columna = ;
+                        case '-' : columna = 4;
                         break;
-                        case '/' : columna = ;
+                        case '*' : columna = 5;
                         break;
-                        case '^' : columna = ;
+                        case '/' : columna = 6;
                         break;
-                        case '<' : columna = ;
+                        case '^' : columna = 7;
                         break;
-                        case '>' : columna = ;
+                        case '>' : columna = 8;
                         break;
-                        case '=' : columna = ;
+                        case '<' : columna = 9;
                         break;
-                        case '!' : columna = ;
+                        case '=' : columna = 10;
                         break;
-                        case '&' : columna = ;
+                        case '!' : columna = 11;
                         break;
-                        case '|' : columna = ;
+                        case '&' : columna = 12;
                         break;
-                        case ',' : columna = ;
+                        case '|' : columna = 13;
                         break;
-                        case ':' : columna = ;
+                        case ',' : columna = 14;
                         break;
-                        case ';' : columna = ;
+                        case ':' : columna = 15;
                         break;
-                        case '(' : columna = ;
+                        case ';' : columna = 16;
                         break;
-                        case ')' : columna = ;
+                        case '(' : columna = 17;
                         break;
-                        case '{' : columna = ;
+                        case ')' : columna = 18;
                         break;
-                        case '}' : columna = ;
+                        case '{' : columna = 19;
                         break;
-                        case '"' : columna = ;
+                        case '}' : columna = 20;
                         break;
-                        case ' ' : columna = ; //Espacio en blanco
+                        case '"' : columna = 21;
                         break;
-                        case 10 : {columna = ;  //Nueva linea
+                        case ' ' : columna = 22; //Espacio en blanco
+                        break;
+                        case 9 : columna = 23;    //Tabulador
+                        break;
+                        case 10 : {columna = 24;  //Nueva linea
                             numRenglon = numRenglon+1;
                         }
-                        break;
-                        case 9 : columna = ;    //Tabulador
                         break;
                         default: 
                         break;
@@ -160,7 +162,7 @@ public class lexico {
         if (caracter != -1 && valorMT >= 500){
             for(String[] errore : codErrores){
                 if (valorMT == Integer.valueOf(errore[0])){
-                    System.out.println("El error encontrado es: " + errore[1] + " error " + valorMT + " caracter " + caracter + " en el renglon " + numRenglon);
+                    System.out.println("El error encontrado es: " + errore[1] + ", error " + valorMT + ", caracter " + caracter + ", en el renglon " + numRenglon);
                 }
             }
         }
