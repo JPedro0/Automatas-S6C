@@ -1,2 +1,2 @@
 # Automatas-S6C-
-Repo para el equipo, para llevar todo el avance
+Repositorio del equipo 4 para llevar todo el avance entre los integrantes
