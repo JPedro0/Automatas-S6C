@@ -1,10 +1,14 @@
-/*3145315.256*54264.8*/
-hola
+/*3145315.256*54264.8 Numeros*/
+hola program h : 1038 s;
+esfsf;
+seef;
 */
+
+/*53.*/
 program suma;
 var a,  b,d,if,c : string;
     j : real;
     h,b,i,k : int;
 begin "a";
-
+"andwlkan kandl ad" a;
 end "."
