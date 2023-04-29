@@ -7,8 +7,5 @@ public class CompiladorAutomatas {
             if(!lexico.errorEncontrado){
                 System.out.println("Analisis lexico terminado");
             }
-        
-        prueba_Doc imprimir = new prueba_Doc();
-        //imprimir.prueba_Doc();
     }
 }

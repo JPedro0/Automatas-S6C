@@ -4,11 +4,11 @@ import java.io.RandomAccessFile;
 
 public class lexico {
     nodo cabeza = null, p;
-    int estado = 0, columna, valorMT, numRenglon = 0, caracter = 0;
+    int estado = 0, columna, valorMT, numRenglon = 1, caracter = 0;
     String lexema = "";
     boolean errorEncontrado = false, endfile = false;
     
-    String archivo = "C:\\Users\\nuevo\\Desktop\\Compilador\\CompiladorAutomatas\\src\\main\\java\\pruebas\\test.txt";
+    String archivo = "C:\\Users\\nuevo\\Desktop\\Compilador\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
     
     int matriz[][] = {
             /*  l   d   .   +   -   *   /   ^   >   <   =   !   &   |   ,   :   ;   (   )   {   }   "   ed  tab nl  oc  eof*/
@@ -39,7 +39,8 @@ public class lexico {
         {"206","while"},
         {"207","string"},
         {"208","int"},
-        {"209","double"}
+        {"209","double"},
+        {"210","read"}
     };
     
     String codErrores[][] = {
@@ -59,6 +60,7 @@ public class lexico {
             
             //System.out.println(file.length());
             while (!endfile){
+                //System.out.println(caracter);
                 caracter = file.read();
                 
                 if(caracter == -1){
@@ -117,7 +119,7 @@ public class lexico {
                         break;
                         case 9 : columna = 23;    //Tabulador
                         break;
-                        case '\n' : {
+                        case 13 : {
                             columna = 24;  //Nueva linea
                             numRenglon = numRenglon+1;
                         }
@@ -173,7 +175,10 @@ public class lexico {
         if (caracter != -1 && valorMT >= 500){
             for(String[] errore : codErrores){
                 if (valorMT == Integer.valueOf(errore[0])){
-                    System.out.println("El error encontrado es: " + errore[1] + ", error " + valorMT + ", caracter " + caracter + ", en el renglon " + numRenglon);
+                    if(valorMT == 505)
+                        System.out.println("El error encontrado es: " + errore[1] + ", error " + valorMT + ", caracter " + caracter + ", en el renglon " + numRenglon);
+                    else
+                        System.out.println("El error encontrado es: " + errore[1] + ", error " + valorMT + ", caracter " + caracter + ", en el renglon " + (numRenglon -1));
                 }
             }
         }
