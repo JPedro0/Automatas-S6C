@@ -9,25 +9,25 @@ public class compi {
     String lexema = "";
     boolean errorEncontrado = false, endfile = false;
 
-    String archivo = "E:\\Users\\jpedr\\Escritorio\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
+    String archivo = "C:\\Users\\nuevo\\Desktop\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
 
     int matriz[][] = {
-        /*  l   d   .   +   -   *   /   ^   >   <   =   !   &   |   ,   :   ;   (   )   {   }   "   ed  tab nl  oc  eof*/
-        /*0*/{1, 2, 505, 103, 104, 105, 5, 107, 9, 8, 10, 11, 12, 13, 117, 118, 119, 120, 121, 122, 123, 14, 0, 0, 0, 505, 0},
-        /*1*/ {1, 1, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100},
-        /*2*/ {101, 2, 3, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101},
-        /*3*/ {500, 4, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500},
-        /*4*/ {102, 4, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102},
-        /*5*/ {106, 106, 106, 106, 106, 6, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106},
-        /*6*/ {6, 6, 6, 6, 6, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 501, 6, 501},
-        /*7*/ {6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 501, 6, 501},
-        /*8*/ {108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 110, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108},
-        /*9*/ {109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 111, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109},
-        /*10*/ {125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 112, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125},
-        /*11*/ {116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 113, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116},
-        /*12*/ {502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 114, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502},
-        /*13*/ {503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 115, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503},
-        /*14*/ {14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 124, 14, 14, 504, 14, 504}
+        /*      l   d   .   +   -       *   /   ^   >   <   =   !   &   |   ,   :   ;   (   )   {   }   "   ed  tab nl  oc  eof*/
+        /*0*/   {1, 2, 505, 103, 104, 105, 5, 107, 8, 9,    10, 11, 12, 13, 117, 118, 119, 120, 121, 122, 123, 14, 0, 0, 0, 505, 0},
+        /*1*/   {1, 1, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100, 100},
+        /*2*/   {101, 2, 3, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101, 101},
+        /*3*/   {500, 4, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500, 500},
+        /*4*/   {102, 4, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102, 102},
+        /*5*/   {106, 106, 106, 106, 106, 6, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106, 106},
+        /*6*/   {6, 6, 6, 6, 6, 7, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 501, 6, 501},
+        /*7*/   {6, 6, 6, 6, 6, 6, 0, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 501, 6, 501},
+        /*8*/   {108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 110, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108, 108},
+        /*9*/   {109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 111, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109, 109},
+        /*10*/  {125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 112, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125, 125},
+        /*11*/  {116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 113, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116, 116},
+        /*12*/  {502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 114, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502, 502},
+        /*13*/  {503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 115, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503, 503},
+        /*14*/  {14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 14, 124, 14, 14, 504, 14, 504}
     };
 
     String palabrasRes[][] = {
@@ -94,10 +94,10 @@ public class compi {
                             columna = 7;
                             break;
                         case '>':
-                            columna = 8;
+                            columna = 9;
                             break;
                         case '<':
-                            columna = 9;
+                            columna = 8;
                             break;
                         case '=':
                             columna = 10;
@@ -167,7 +167,7 @@ public class compi {
                     }
 
                     if (valorMT == 100 || valorMT == 101 || valorMT == 102 || valorMT == 106
-                            || valorMT == 108 || valorMT == 110 || valorMT == 125
+                            || valorMT == 108 || valorMT == 109 || valorMT == 108 || valorMT == 125
                             || valorMT == 116 || valorMT >= 200) {
                         file.seek(file.getFilePointer() - 1);
                     } else {
@@ -190,7 +190,7 @@ public class compi {
 
     private void imprimirError() {
         if (caracter != -1 && valorMT >= 500) {
-            errorEncontrado = true;
+            System.exit(0);
             for (String[] errore : codErrores) {
                 if (valorMT == Integer.valueOf(errore[0])) {
                     if (valorMT == 505) {
@@ -264,19 +264,19 @@ public class compi {
                             break;
                         } else {
                             System.out.println("Se espera un }");
-                            errorEncontrado = true;
+                            System.exit(0);
                         }
                     } else {
                         System.out.println("Se espera {");
-                        errorEncontrado = true;
+                        System.exit(0);
                     }
                 } else {
                     System.out.println("Se espera ID");
-                    errorEncontrado = true;
+                    System.exit(0);
                 }
             } else {
                 System.out.println("Se espera class");
-                errorEncontrado = true;
+                System.exit(0);
             }
 
             p = p.sig;
@@ -298,7 +298,7 @@ public class compi {
                     }
                 } else {
                     System.out.println("Se espera ID");
-                    errorEncontrado = true;
+                    System.exit(0);
                     break;
                 }
             }
@@ -309,15 +309,15 @@ public class compi {
                     //vacio
                 } else {
                     System.out.println("Se espera ;");
-                    errorEncontrado = true;
+                    System.exit(0);
                 }
             } else {
                 System.out.println("Se espera :");
-                errorEncontrado = true;
+                System.exit(0);
             }
         } else {
             System.out.println("Se espera var");
-            errorEncontrado = true;
+            System.exit(0);
         }
     }
 
@@ -327,14 +327,14 @@ public class compi {
             //vacio
         } else {
             System.out.println("Se espera un TIPO");
-            errorEncontrado = true;
+            System.exit(0);
         }
     }
 
     private void statement() {
         if (p.token == 121) {
             System.out.println("Se espera un ESTATUTO");
-            errorEncontrado = true;
+            System.exit(0);
         }
         //System.out.println(p.lexema);
         if (p.token == 201) { //print (a);
@@ -349,19 +349,19 @@ public class compi {
                         //System.out.println(p.lexema);
                         if (p.token != 119) {
                             System.out.println("Se espera un ;");
-                            errorEncontrado = true;
+                            System.exit(0);
                         }
                     } else {
                         System.out.println("Se espera un )");
-                        errorEncontrado = true;
+                        System.exit(0);
                     }
                 } else {
                     System.out.println("Se espera un ID");
-                    errorEncontrado = true;
+                    System.exit(0);
                 }
             } else {
                 System.out.println("Se espera un (");
-                errorEncontrado = true;
+                System.exit(0);
             }
         }
         if (p.token == 210) { //read (a);
@@ -374,33 +374,35 @@ public class compi {
                         p = p.sig;
                         if (p.token != 119) {
                             System.out.println("Se espera un ;");
-                            errorEncontrado = true;
+                            System.exit(0);
                         }
                     } else {
                         System.out.println("Se espera un )");
-                        errorEncontrado = true;
+                        System.exit(0);
                     }
                 } else {
                     System.out.println("Se espera un ID");
-                    errorEncontrado = true;
+                    System.exit(0);
                 }
             } else {
                 System.out.println("Se espera un (");
-                errorEncontrado = true;
+                System.exit(0);
             }
         }
         if (p.token == 100) { //ID = a;
             p = p.sig;
             if (p.token == 125) {
-                expresion_simple();
                 p = p.sig;
+                expresion_simple();
+                
+                //System.out.println(p.lexema);
                 if (p.token != 119) {
-                    System.out.println("Se espera un ;");
-                    errorEncontrado = true;
+                    System.out.println("Se espera un --;");
+                    System.exit(0);
                 }
             } else {
                 System.out.println("Se espera un =");
-                errorEncontrado = true;
+                System.exit(0);
             }
         }
         if (p.token == 206) { //while(1>2)
@@ -416,7 +418,7 @@ public class compi {
                             statement();
                             if (p.sig == null) {
                                 System.out.println("Se espera un }");
-                                errorEncontrado = true;
+                                System.exit(0);
                                 break;
                             } else {
                                 p = p.sig;
@@ -424,22 +426,22 @@ public class compi {
                                     //vacio
                                 } else {
                                     System.out.println("Se espera un }");
-                                    errorEncontrado = true;
+                                    System.exit(0);
                                 }
                             }
                         }
 
                     } else {
                         System.out.println("Se espera un {");
-                        errorEncontrado = true;
+                        System.exit(0);
                     }
                 } else {
                     System.out.println("Se espera un )");
-                    errorEncontrado = true;
+                    System.exit(0);
                 }
             } else {
                 System.out.println("Se espera un (");
-                errorEncontrado = true;
+                System.exit(0);
             }
         }
         if (p.token == 204) { // IF{}
@@ -454,14 +456,15 @@ public class compi {
                         while (p.token != 123) { //Busca un }
                             statement();
                             if (p.sig == null) {
-                                System.out.println("Se espera un }");
-                                errorEncontrado = true;
+                                System.out.println("Se espera un -}");
+                                System.exit(0);
                                 break;
                             } else {
                                 p = p.sig;
                                 if (p.token == 123) {
-                                    p = p.sig;
-                                    if (p.token == 205) { // ELSE{}
+                                    //System.out.println(p.lexema);
+                                    if (p.sig.token == 205) { // ELSE{}
+                                        p = p.sig;
                                         p = p.sig;
                                         if (p.token == 122) {
                                             p = p.sig;
@@ -470,7 +473,7 @@ public class compi {
                                                 statement();
                                                 if (p.sig == null) {
                                                     //System.out.println("Se espera un }");
-                                                    errorEncontrado = true;
+                                                    System.exit(0);
                                                     break;
                                                 } else {
                                                     p = p.sig;
@@ -478,42 +481,62 @@ public class compi {
                                                         //vacio
                                                     } else {
                                                         System.out.println("Se espera un }");
-                                                        errorEncontrado = true;
+                                                        System.exit(0);
                                                     }
                                                 }
                                             }
 
                                         } else {
                                             System.out.println("Se espera un {");
-                                            errorEncontrado = true;
+                                            System.exit(0);
                                         }
                                     }
                                 } else {
-                                    System.out.println("Se espera un }");
-                                    errorEncontrado = true;
+                                    
                                 }
                             }
                         }
 
                     } else {
                         System.out.println("Se espera un {");
-                        errorEncontrado = true;
+                        System.exit(0);
                     }
                 } else {
                     System.out.println("Se espera un )");
-                    errorEncontrado = true;
+                    System.exit(0);
                 }
             } else {
                 System.out.println("Se espera un (");
-                errorEncontrado = true;
+                System.exit(0);
             }
         }
     }
 
     private void expresion_simple() {
+        //p = p.sig;
         //System.out.println(p.lexema);
-        p = p.sig;
-
+        if(p.token == 103 || p.token == 104){
+            signo();
+            termino();
+        } else if(p.sig.token == 103 || p.sig.token == 104 || p.sig.token == 115){
+            factor();
+            operador_aditivo();
+            //System.out.println(p.lexema);
+            //p = p.sig;
+            expresion_simple();
+        } else if(p.token == 120){
+            p = p.sig;
+            expresion_simple();
+            if(p.token == 121){
+                p = p.sig;
+            } else {
+                System.out.println("Se espera un )");
+                System.exit(0);
+            }
+        } else {
+            termino();
+            //System.out.println(p.lexema);
+        }
     }
 
     private void expresion_condicional() {
@@ -528,59 +551,78 @@ public class compi {
 
     private void signo() {
         if (p.token == 103 || p.token == 104) {
-            //vacio
+            p = p.sig;
         } else {
             System.out.println("Se espera un SIGNO");
-            errorEncontrado = true;
+            System.exit(0);
         }
     }
 
     private void operador_aditivo() {
         if (p.token == 103 || p.token == 104 || p.token == 115) {
-            //vacio
+            p = p.sig;
         } else {
             System.out.println("Se espera un OPERADOR ADITIVO");
-            errorEncontrado = true;
+            System.exit(0);
         }
     }
 
     private void operador_mult() {
         if (p.token == 105 || p.token == 106 || p.token == 114) {
-            //vacio
+            p = p.sig;
         } else {
             System.out.println("Se espera un OPERADOR MULTIPLICATIVO");
-            errorEncontrado = true;
+            System.exit(0);
         }
     }
 
     private void operador_relacional() {
-        if (p.token == 110 || p.token == 111 || p.token == 108 || p.token == 112 || p.token == 113 || p.token == 113) {
+       
+        if (p.token == 108 || p.token == 109 || p.token == 110 || p.token == 111 || p.token == 112 || p.token == 113) {
             p = p.sig;
         } else {
+            //System.out.println(p.lexema);
             System.out.println("Se espera un OPERADOR RELACIONAL");
-            errorEncontrado = true;
+            System.exit(0);
         }
     }
 
     private void factor() {
+        //System.out.println(p.lexema);
         switch (p.token) {
-            case 100:
-                //vacio
+            case 100:   //ID
+                p = p.sig;
                 break;
-            case 124:
-                //vacio
+            case 101:   //Entero    
+                p = p.sig;
+                break;
+            case 102:   //Decimal
+                p = p.sig;
+                break;
+            case 124:   //Cadena
+                p = p.sig;
                 break;
             case 116:
                 p = p.sig;
                 factor();
                 break;
             default:
-                expresion_simple();
+                System.out.println("Se espera un dato");
+                System.exit(0);
                 break;
         }
     }
 
     private void termino() {
-        System.out.println("termino");
+        //System.out.println("si");
+        if(p.sig.token == 105 || p.sig.token == 106 || p.sig.token == 114){
+            factor();
+            operador_mult();
+            factor();
+        }
+        else{
+            //System.out.println("si");
+            factor();
+        }
     }
 }

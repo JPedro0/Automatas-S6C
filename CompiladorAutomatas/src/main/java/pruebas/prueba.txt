@@ -1,16 +1,29 @@
-/* hdgsfs */
+/* Sintactico */
+
 class A{
-    var a,b : int;
+    var a,b,c : int;
     read (b);
     print (b);
-    a = 3;
-    while (a==b){
-        read (algo);
+    a = 5 + 5;
+    while(a>=b){
+        while(a<c){
+            print (Anidado);
+        }
     }
-    if(a>=b){
-        print(a);
-    }else{
-        print(b);
+    while(a<b){
+        print (Secuencial);
     }
-    read (final);
+
+    if(c==a){ 
+        if(b!=a){
+            print (Anidado);
+        }
+    }
+    if(b!=a){
+        print (Secuencial);
+    }
+    else{
+        
+    }
+    print (final);
 }
