@@ -3,7 +3,7 @@ package equipo4.compiladorautomatas;
 public class CompiladorAutomatas {
 
     public static void main(String[] args) {
-        lexico lexico = new lexico();
+        compi lexico = new compi();
             if(!lexico.errorEncontrado){
                 System.out.println("Analisis lexico terminado");
                 
