@@ -12,4 +12,5 @@ class A{
     }else{
         print(b);
     }
+    read (final);
 }

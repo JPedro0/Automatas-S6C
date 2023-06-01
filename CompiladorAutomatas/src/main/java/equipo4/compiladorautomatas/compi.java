@@ -247,7 +247,11 @@ public class compi {
                     p = p.sig;
                     if (p.token == 122) {
                         declarar_var();
-                        p = p.sig;
+                        if (p.sig == null) {
+
+                        } else {
+                            p = p.sig;
+                        }
                         while (p.token != 123) { //Busca un }
                             statement();
                             if (p.sig == null) {
@@ -338,9 +342,11 @@ public class compi {
             if (p.token == 120) {
                 p = p.sig;
                 if (p.token == 100) {
+                    //System.out.println(p.lexema);
                     p = p.sig;
                     if (p.token == 121) {
                         p = p.sig;
+                        //System.out.println(p.lexema);
                         if (p.token != 119) {
                             System.out.println("Se espera un ;");
                             errorEncontrado = true;
@@ -414,14 +420,15 @@ public class compi {
                                 break;
                             } else {
                                 p = p.sig;
+                                if (p.token == 123) {
+                                    //vacio
+                                } else {
+                                    System.out.println("Se espera un }");
+                                    errorEncontrado = true;
+                                }
                             }
                         }
-                        if (p.token == 123) {
-                            //vacio
-                        } else {
-                            System.out.println("Se espera un }");
-                            errorEncontrado = true;
-                        }
+
                     } else {
                         System.out.println("Se espera un {");
                         errorEncontrado = true;
@@ -452,39 +459,42 @@ public class compi {
                                 break;
                             } else {
                                 p = p.sig;
-                            }
-                        }
-                        if (p.token == 123) {
-                            p = p.sig;
-                            if (p.token == 205) { // ELSE{}
-                                p = p.sig;
-                                if (p.token == 122) {
+                                if (p.token == 123) {
                                     p = p.sig;
-                                    while (p.token != 123) { //Busca un }
-                                        statement();
-                                        if (p.sig == null) {
-                                            System.out.println("Se espera un }");
-                                            errorEncontrado = true;
-                                            break;
-                                        } else {
+                                    if (p.token == 205) { // ELSE{}
+                                        p = p.sig;
+                                        if (p.token == 122) {
                                             p = p.sig;
+                                            while (p.token != 123) { //Busca un }
+                                                //System.out.println(p.lexema);
+                                                statement();
+                                                if (p.sig == null) {
+                                                    //System.out.println("Se espera un }");
+                                                    errorEncontrado = true;
+                                                    break;
+                                                } else {
+                                                    p = p.sig;
+                                                    if (p.token == 123) {
+                                                        //vacio
+                                                    } else {
+                                                        System.out.println("Se espera un }");
+                                                        errorEncontrado = true;
+                                                    }
+                                                }
+                                            }
+
+                                        } else {
+                                            System.out.println("Se espera un {");
+                                            errorEncontrado = true;
                                         }
                                     }
-                                    if (p.token == 123) {
-                                        //vacio
-                                    } else {
-                                        System.out.println("Se espera un }");
-                                        errorEncontrado = true;
-                                    }
                                 } else {
-                                    System.out.println("Se espera un {");
+                                    System.out.println("Se espera un }");
                                     errorEncontrado = true;
                                 }
                             }
-                        } else {
-                            System.out.println("Se espera un }");
-                            errorEncontrado = true;
                         }
+
                     } else {
                         System.out.println("Se espera un {");
                         errorEncontrado = true;
@@ -515,43 +525,43 @@ public class compi {
         expresion_simple();
         //System.out.println(p.token);
     }
-    
+
     private void signo() {
-        if(p.token == 103 || p.token == 104){
+        if (p.token == 103 || p.token == 104) {
             //vacio
         } else {
             System.out.println("Se espera un SIGNO");
             errorEncontrado = true;
         }
     }
-    
+
     private void operador_aditivo() {
-        if(p.token == 103 || p.token == 104 || p.token == 115){
+        if (p.token == 103 || p.token == 104 || p.token == 115) {
             //vacio
         } else {
             System.out.println("Se espera un OPERADOR ADITIVO");
             errorEncontrado = true;
         }
     }
-    
+
     private void operador_mult() {
-        if(p.token == 105 || p.token == 106 || p.token == 114){
+        if (p.token == 105 || p.token == 106 || p.token == 114) {
             //vacio
         } else {
             System.out.println("Se espera un OPERADOR MULTIPLICATIVO");
             errorEncontrado = true;
         }
     }
-    
+
     private void operador_relacional() {
-        if(p.token == 110 || p.token == 111 || p.token == 108 || p.token == 112 || p.token == 113 || p.token == 113){
+        if (p.token == 110 || p.token == 111 || p.token == 108 || p.token == 112 || p.token == 113 || p.token == 113) {
             p = p.sig;
         } else {
             System.out.println("Se espera un OPERADOR RELACIONAL");
             errorEncontrado = true;
         }
     }
-    
+
     private void factor() {
         switch (p.token) {
             case 100:
@@ -569,7 +579,7 @@ public class compi {
                 break;
         }
     }
-    
+
     private void termino() {
         System.out.println("termino");
     }
