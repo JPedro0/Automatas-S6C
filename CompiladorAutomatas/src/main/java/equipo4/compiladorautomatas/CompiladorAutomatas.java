@@ -6,6 +6,12 @@ public class CompiladorAutomatas {
         lexico lexico = new lexico();
             if(!lexico.errorEncontrado){
                 System.out.println("Analisis lexico terminado");
+                
+                lexico.sintaxis();
+                
+                if(!lexico.errorEncontrado){
+                    System.out.println("Analisis Sintactico terminado");
+                }
             }
     }
 }

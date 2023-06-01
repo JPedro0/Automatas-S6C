@@ -8,7 +8,7 @@ public class lexico {
     String lexema = "";
     boolean errorEncontrado = false, endfile = false;
     
-    String archivo = "C:\\Users\\nuevo\\Desktop\\Compilador\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
+    String archivo = "E:\\Users\\jpedr\\Escritorio\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
     
     int matriz[][] = {
             /*  l   d   .   +   -   *   /   ^   >   <   =   !   &   |   ,   :   ;   (   )   {   }   "   ed  tab nl  oc  eof*/
@@ -40,7 +40,8 @@ public class lexico {
         {"207","string"},
         {"208","int"},
         {"209","double"},
-        {"210","read"}
+        {"210","read"},
+        {"211","class"}
     };
     
     String codErrores[][] = {
@@ -173,6 +174,7 @@ public class lexico {
     
     private void imprimirError(){
         if (caracter != -1 && valorMT >= 500){
+            errorEncontrado = true;
             for(String[] errore : codErrores){
                 if (valorMT == Integer.valueOf(errore[0])){
                     if(valorMT == 505)
@@ -213,6 +215,88 @@ public class lexico {
         else{
             p.sig = nodo;
             p = nodo;
+        }
+    }
+
+    public void sintaxis() {
+        System.out.println("\nSINTACTICO\n");
+        p = cabeza;
+        while (p!=null){
+           
+            //Inicio sintactico
+            if(p.token == 211){
+                p = p.sig;
+                if(p.token == 100){
+                    p = p.sig;
+                    if(p.token == 122){
+                        declarar_var();
+                        p = p.sig;
+                        while(p.token != 123){
+                            
+                        }
+                        if(p.token == 123){
+                            break;
+                        } else {
+                            System.out.println("Se espera un }");
+                        }
+                    }
+                    else{
+                        System.out.println("Se espera {");
+                    }
+                }
+                else{
+                    System.out.println("Se espera ID");
+                }
+            }
+            else{
+                System.out.println("Se espera class");
+            }
+            
+            p = p.sig;
+        }
+    }
+
+    //revisión sintáctica sobre la declaración de variables
+    private void declarar_var() {
+        p = p.sig;
+        if(p.token == 200){
+            p = p.sig;
+            while (p.token != 118){
+                if(p.token == 100){
+                    p = p.sig;
+                    if(p.token == 117){
+                        p = p.sig;
+                    } else {
+                        break;
+                    }
+                } else {
+                    System.out.println("Se espera ID");
+                    break;
+                }
+            }
+            if(p.token == 118){
+                tipo();
+                p = p.sig;
+                if(p.token == 119){
+                    
+                } else {
+                    System.out.println("Se espera ;");
+                }
+            } else {
+                System.out.println("Se espera :");
+            }
+        }
+        else{
+            System.out.println("Se espera var");
+        }
+    }
+
+    private void tipo() {
+        p = p.sig;
+        if(p.token == 207 || p.token == 208 || p.token == 209){
+            
+        } else {
+            System.out.println("Se espera un TIPO");
         }
     }
 }
