@@ -9,7 +9,7 @@ public class compi {
     String lexema = "";
     boolean errorEncontrado = false, endfile = false;
 
-    String archivo = "C:\\Users\\nuevo\\Desktop\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
+    String archivo = "E:\\Users\\jpedr\\Escritorio\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
 
     int matriz[][] = {
         /*      l   d   .   +   -       *   /   ^   >   <   =   !   &   |   ,   :   ;   (   )   {   }   "   ed  tab nl  oc  eof*/
@@ -263,19 +263,19 @@ public class compi {
                         if (p.token == 123) {
                             break;
                         } else {
-                            System.out.println("Se espera un }");
+                            System.out.println("Error: 509: Se espera un }");
                             System.exit(0);
                         }
                     } else {
-                        System.out.println("Se espera {");
+                        System.out.println("Error 508: Se espera {");
                         System.exit(0);
                     }
                 } else {
-                    System.out.println("Se espera ID");
+                    System.out.println("Error 507: Se espera ID");
                     System.exit(0);
                 }
             } else {
-                System.out.println("Se espera class");
+                System.out.println("Error 506: Se espera class");
                 System.exit(0);
             }
 
@@ -297,7 +297,7 @@ public class compi {
                         break;
                     }
                 } else {
-                    System.out.println("Se espera ID");
+                    System.out.println("Error 507: Se espera ID");
                     System.exit(0);
                     break;
                 }
@@ -308,15 +308,15 @@ public class compi {
                 if (p.token == 119) {
                     //vacio
                 } else {
-                    System.out.println("Se espera ;");
+                    System.out.println("Error 512: Se espera ;");
                     System.exit(0);
                 }
             } else {
-                System.out.println("Se espera :");
+                System.out.println("Error 511: Se espera :");
                 System.exit(0);
             }
         } else {
-            System.out.println("Se espera var");
+            System.out.println("Error 510: Se espera var");
             System.exit(0);
         }
     }
@@ -326,14 +326,14 @@ public class compi {
         if (p.token == 207 || p.token == 208 || p.token == 209) {
             //vacio
         } else {
-            System.out.println("Se espera un TIPO");
+            System.out.println("Error 513: Se espera un TIPO");
             System.exit(0);
         }
     }
 
     private void statement() {
         if (p.token == 121) {
-            System.out.println("Se espera un ESTATUTO");
+            System.out.println("Error 514: Se espera un ESTATUTO");
             System.exit(0);
         }
         //System.out.println(p.lexema);
@@ -348,19 +348,19 @@ public class compi {
                         p = p.sig;
                         //System.out.println(p.lexema);
                         if (p.token != 119) {
-                            System.out.println("Se espera un ;");
+                            System.out.println("Error 512: Se espera un ;");
                             System.exit(0);
                         }
                     } else {
-                        System.out.println("Se espera un )");
+                        System.out.println("Error 516: Se espera un )");
                         System.exit(0);
                     }
                 } else {
-                    System.out.println("Se espera un ID");
+                    System.out.println("Error 507: Se espera un ID");
                     System.exit(0);
                 }
             } else {
-                System.out.println("Se espera un (");
+                System.out.println("Error 515: Se espera un (");
                 System.exit(0);
             }
         }
@@ -373,19 +373,19 @@ public class compi {
                     if (p.token == 121) {
                         p = p.sig;
                         if (p.token != 119) {
-                            System.out.println("Se espera un ;");
+                            System.out.println("Error 512: Se espera un ;");
                             System.exit(0);
                         }
                     } else {
-                        System.out.println("Se espera un )");
+                        System.out.println("Error 516: Se espera un )");
                         System.exit(0);
                     }
                 } else {
-                    System.out.println("Se espera un ID");
+                    System.out.println("Error 507: Se espera un ID");
                     System.exit(0);
                 }
             } else {
-                System.out.println("Se espera un (");
+                System.out.println("Error 515: Se espera un (");
                 System.exit(0);
             }
         }
@@ -397,11 +397,11 @@ public class compi {
                 
                 //System.out.println(p.lexema);
                 if (p.token != 119) {
-                    System.out.println("Se espera un --;");
+                    System.out.println("Error 512: Se espera un ;");
                     System.exit(0);
                 }
             } else {
-                System.out.println("Se espera un =");
+                System.out.println("Error 517: Se espera un =");
                 System.exit(0);
             }
         }
@@ -417,7 +417,7 @@ public class compi {
                         while (p.token != 123) { //Busca un }
                             statement();
                             if (p.sig == null) {
-                                System.out.println("Se espera un }");
+                                System.out.println("Error 509: Se espera un }");
                                 System.exit(0);
                                 break;
                             } else {
@@ -425,22 +425,22 @@ public class compi {
                                 if (p.token == 123) {
                                     //vacio
                                 } else {
-                                    System.out.println("Se espera un }");
+                                    System.out.println("Error 509: Se espera un }");
                                     System.exit(0);
                                 }
                             }
                         }
 
                     } else {
-                        System.out.println("Se espera un {");
+                        System.out.println("Error 508: Se espera un {");
                         System.exit(0);
                     }
                 } else {
-                    System.out.println("Se espera un )");
+                    System.out.println("Error 516: Se espera un )");
                     System.exit(0);
                 }
             } else {
-                System.out.println("Se espera un (");
+                System.out.println("Error 515: Se espera un (");
                 System.exit(0);
             }
         }
@@ -456,7 +456,7 @@ public class compi {
                         while (p.token != 123) { //Busca un }
                             statement();
                             if (p.sig == null) {
-                                System.out.println("Se espera un -}");
+                                System.out.println("Error 509: Se espera un }");
                                 System.exit(0);
                                 break;
                             } else {
@@ -480,14 +480,14 @@ public class compi {
                                                     if (p.token == 123) {
                                                         //vacio
                                                     } else {
-                                                        System.out.println("Se espera un }");
+                                                        System.out.println("Error 509: Se espera un }");
                                                         System.exit(0);
                                                     }
                                                 }
                                             }
 
                                         } else {
-                                            System.out.println("Se espera un {");
+                                            System.out.println("Error 518: Se espera un {");
                                             System.exit(0);
                                         }
                                     }
@@ -498,15 +498,15 @@ public class compi {
                         }
 
                     } else {
-                        System.out.println("Se espera un {");
+                        System.out.println("Error 508: Se espera un {");
                         System.exit(0);
                     }
                 } else {
-                    System.out.println("Se espera un )");
+                    System.out.println("Error 516: Se espera un )");
                     System.exit(0);
                 }
             } else {
-                System.out.println("Se espera un (");
+                System.out.println("Error 515: Se espera un (");
                 System.exit(0);
             }
         }
@@ -530,7 +530,7 @@ public class compi {
             if(p.token == 121){
                 p = p.sig;
             } else {
-                System.out.println("Se espera un )");
+                System.out.println("Error 516: Se espera un )");
                 System.exit(0);
             }
         } else {
@@ -553,7 +553,7 @@ public class compi {
         if (p.token == 103 || p.token == 104) {
             p = p.sig;
         } else {
-            System.out.println("Se espera un SIGNO");
+            System.out.println("Error 518: Se espera un SIGNO");
             System.exit(0);
         }
     }
@@ -562,7 +562,7 @@ public class compi {
         if (p.token == 103 || p.token == 104 || p.token == 115) {
             p = p.sig;
         } else {
-            System.out.println("Se espera un OPERADOR ADITIVO");
+            System.out.println("Error 519: Se espera un OPERADOR ADITIVO");
             System.exit(0);
         }
     }
@@ -571,7 +571,7 @@ public class compi {
         if (p.token == 105 || p.token == 106 || p.token == 114) {
             p = p.sig;
         } else {
-            System.out.println("Se espera un OPERADOR MULTIPLICATIVO");
+            System.out.println("Error 520: Se espera un OPERADOR MULTIPLICATIVO");
             System.exit(0);
         }
     }
@@ -582,7 +582,7 @@ public class compi {
             p = p.sig;
         } else {
             //System.out.println(p.lexema);
-            System.out.println("Se espera un OPERADOR RELACIONAL");
+            System.out.println("Error 521: Se espera un OPERADOR RELACIONAL");
             System.exit(0);
         }
     }
@@ -607,7 +607,7 @@ public class compi {
                 factor();
                 break;
             default:
-                System.out.println("Se espera un dato");
+                System.out.println("Error 522: Se espera un DATO");
                 System.exit(0);
                 break;
         }
