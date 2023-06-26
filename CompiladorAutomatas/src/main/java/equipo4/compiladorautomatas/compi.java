@@ -9,7 +9,7 @@ public class compi {
     String lexema = "";
     boolean errorEncontrado = false, endfile = false;
 
-    String archivo = "E:\\Users\\jpedr\\Escritorio\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
+    String archivo = "C:\\Users\\nuevo\\Desktop\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
 
     int matriz[][] = {
         /*      l   d   .   +   -       *   /   ^   >   <   =   !   &   |   ,   :   ;   (   )   {   }   "   ed  tab nl  oc  eof*/
@@ -42,7 +42,8 @@ public class compi {
         {"208", "int"},
         {"209", "double"},
         {"210", "read"},
-        {"211", "class"}
+        {"211", "class"},
+        {"212", "bool"}
     };
 
     String codErrores[][] = {
@@ -258,9 +259,18 @@ public class compi {
                                 break;
                             } else {
                                 p = p.sig;
+                                //System.out.println(p.lexema + " " + p.renglon);
+                                if (p.token == 123 && p.token <= 200){
+
+                                }
+                                else{
+                                    System.out.println(p.lexema + " " + p.renglon);
+                                    System.out.println("B");
+                                }
                             }
                         }
                         if (p.token == 123) {
+                            System.out.println(p.lexema + "--" + p.renglon);
                             break;
                         } else {
                             System.out.println("Error: 509: Se espera un }");
@@ -285,8 +295,9 @@ public class compi {
 
     //revisión sintáctica sobre la declaración de variables
     private void declarar_var() {
-        p = p.sig;
-        if (p.token == 200) {
+        while (p.sig.token == 200){
+            p = p.sig;
+            if (p.token == 200) {
             p = p.sig;
             while (p.token != 118) { // Busca un :
                 if (p.token == 100) {
@@ -319,11 +330,12 @@ public class compi {
             System.out.println("Error 510: Se espera var");
             System.exit(0);
         }
+        }
     }
 
     private void tipo() {
         p = p.sig;
-        if (p.token == 207 || p.token == 208 || p.token == 209) {
+        if (p.token == 207 || p.token == 208 || p.token == 209 || p.token == 212) {
             //vacio
         } else {
             System.out.println("Error 513: Se espera un TIPO");
