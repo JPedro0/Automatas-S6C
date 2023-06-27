@@ -4,11 +4,12 @@ class A{
     var a,b,c : bool;
     var Anidado, Secuencial, final : string;
     var variable : int;
+
     read (b);
     print (b);
-    variable = 5 + 5;
+    variable = 5 + (5 / 5);
     while(a>=b){
-        while(a<c){
+        while((5+5)<c){
             print (Anidado);
         }
     }
@@ -26,5 +27,5 @@ class A{
     }
     else{
         
-    
+    }
 }

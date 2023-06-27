@@ -1,6 +1,8 @@
 package equipo4.compiladorautomatas;
 
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
+import java.util.List;
 
 public class compi {
 
@@ -8,6 +10,7 @@ public class compi {
     int estado = 0, columna, valorMT, numRenglon = 1, caracter = 0;
     String lexema = "";
     boolean errorEncontrado = false, endfile = false;
+    List<simbolo> tabla = new ArrayList<>();
 
     String archivo = "C:\\Users\\nuevo\\Desktop\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
 
@@ -245,9 +248,18 @@ public class compi {
             if (p.token == 211) {
                 p = p.sig;
                 if (p.token == 100) {
+                    simbolo variable = new simbolo(p.lexema, "class", p.lexema, p.renglon, true);
+                    tabla.add(variable);
                     p = p.sig;
                     if (p.token == 122) {
                         declarar_var();
+                        
+                        //System.out.println(tabla.get(0).ide + " " + tabla.get(0).tipo);
+                        
+                        /*for(int i = 0;i<tabla.size();i++){
+                            System.out.println(tabla.get(i).ide + " " + tabla.get(i).tipo);
+                        }*/
+                        
                         if (p.sig == null) {
 
                         } else {
@@ -264,13 +276,16 @@ public class compi {
 
                                 }
                                 else{
-                                    System.out.println(p.lexema + " " + p.renglon);
-                                    System.out.println("B");
+                                    //System.out.println(p.lexema + " " + p.renglon);
+                                    //System.out.println("B");
                                 }
                             }
                         }
                         if (p.token == 123) {
-                            System.out.println(p.lexema + "--" + p.renglon);
+                            //System.out.println(p.lexema + "--" + p.renglon);
+                            for(int i = 0;i<tabla.size();i++){
+                            System.out.println(tabla.get(i).ide + " " + tabla.get(i).tipo + " " + tabla.get(i).ambito);
+                            }
                             break;
                         } else {
                             System.out.println("Error: 509: Se espera un }");
@@ -301,6 +316,11 @@ public class compi {
             p = p.sig;
             while (p.token != 118) { // Busca un :
                 if (p.token == 100) {
+                    //Ingreso de ID's
+                    //System.out.println(p.lexema);
+                    simbolo variable = new simbolo(p.lexema, null, null, p.renglon, false);
+                    tabla.add(variable);
+                    
                     p = p.sig;
                     if (p.token == 117) {
                         p = p.sig;
@@ -315,6 +335,16 @@ public class compi {
             }
             if (p.token == 118) {
                 tipo();
+                //ASIGNACION DE TIPOS A LA TABLA
+                //System.out.println(p.lexema);
+                for(int i = 0;i<tabla.size();i++){
+                    if(tabla.get(i).tipo == null){
+                        //System.out.println(tabla.get(i).ide);
+                        simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, false);
+                        tabla.set(i, variable);
+                    }
+                }
+                
                 p = p.sig;
                 if (p.token == 119) {
                     //vacio
@@ -355,6 +385,41 @@ public class compi {
                 p = p.sig;
                 if (p.token == 100) {
                     //System.out.println(p.lexema);
+                    
+                    /*if(tabla.contains(p.lexema)){
+                        System.out.println(p.lexema + ": true");
+                    }
+                    else{
+                        System.out.println(p.lexema + ": false");
+                    }*/
+                    
+                    for(int i = 0;i<tabla.size();){
+                        //System.out.println(tabla.get(i).ide.equals(p.lexema));
+                        if(tabla.get(i).ide.equals(p.lexema)){
+                            if(tabla.get(i).ide == tabla.get(0).ide){
+                                System.out.println("Error 524: Varible no puede ser utilizada. Variable \"" + p.lexema + "\" en renglon: " + p.renglon);
+                                System.exit(0);
+                            }
+                            else{
+                                //System.out.println("TRUE print");
+                                simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, true);
+                                tabla.set(i, variable);
+                                break;
+                            }
+                        }
+                        else{
+                            if(i!=(tabla.size() - 1)){
+                                i = i+1;
+                            }
+                            else{
+                                System.out.println("Error 523: Variable no encontrada. Variable \"" + p.lexema + "\" en renglon: " + p.renglon);
+                                System.exit(0);
+                            }
+                        }
+                    }
+                    
+                    
+                    
                     p = p.sig;
                     if (p.token == 121) {
                         p = p.sig;
@@ -381,6 +446,32 @@ public class compi {
             if (p.token == 120) {
                 p = p.sig;
                 if (p.token == 100) {
+                    
+                    for(int i = 0;i<tabla.size();){
+                        //System.out.println(tabla.get(i).ide.equals(p.lexema));
+                        if(tabla.get(i).ide.equals(p.lexema)){
+                            if(tabla.get(i).ide == tabla.get(0).ide){
+                                System.out.println("Error 524: Varible no puede ser utilizada. Variable \"" + p.lexema + "\" en renglon: " + p.renglon);
+                                System.exit(0);
+                            }
+                            else{
+                                //System.out.println("TRUE print");
+                                simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, true);
+                                tabla.set(i, variable);
+                                break;
+                            }
+                        }
+                        else{
+                            if(i!=(tabla.size() - 1)){
+                                i = i+1;
+                            }
+                            else{
+                                System.out.println("Error 523: Variable no encontrada. Variable \"" + p.lexema + "\" en renglon: " + p.renglon);
+                                System.exit(0);
+                            }
+                        }
+                    }
+                    
                     p = p.sig;
                     if (p.token == 121) {
                         p = p.sig;
@@ -402,6 +493,32 @@ public class compi {
             }
         }
         if (p.token == 100) { //ID = a;
+            
+            for(int i = 0;i<tabla.size();){
+                        //System.out.println(tabla.get(i).ide.equals(p.lexema));
+                        if(tabla.get(i).ide.equals(p.lexema)){
+                            if(tabla.get(i).ide == tabla.get(0).ide){
+                                System.out.println("Error 524: Varible no puede ser utilizada. Variable \"" + p.lexema + "\" en renglon: " + p.renglon);
+                                System.exit(0);
+                            }
+                            else{
+                                //System.out.println("TRUE id");
+                                simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, true);
+                                tabla.set(i, variable);
+                                break;
+                            }
+                        }
+                        else{
+                            if(i!=(tabla.size() - 1)){
+                                i = i+1;
+                            }
+                            else{
+                                System.out.println("Error 523: Variable no encontrada. Variable \"" + p.lexema + "\" en renglon: " + p.renglon);
+                                System.exit(0);
+                            }
+                        }
+                    }
+            
             p = p.sig;
             if (p.token == 125) {
                 p = p.sig;
@@ -603,6 +720,30 @@ public class compi {
         //System.out.println(p.lexema);
         switch (p.token) {
             case 100:   //ID
+                for(int i = 0;i<tabla.size();){
+                        //System.out.println(tabla.get(i).ide.equals(p.lexema));
+                        if(tabla.get(i).ide.equals(p.lexema)){
+                            if(tabla.get(i).ide == tabla.get(0).ide){
+                                System.out.println("Error 524: Varible no puede ser utilizada. Variable \"" + p.lexema + "\" en renglon: " + p.renglon);
+                                System.exit(0);
+                            }
+                            else{
+                                //System.out.println("TRUE factor");
+                                simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, true);
+                                tabla.set(i, variable);
+                                break;
+                            }
+                        }
+                        else{
+                            if(i!=(tabla.size() - 1)){
+                                i = i+1;
+                            }
+                            else{
+                                System.out.println("Error 523: Variable no encontrada. Variable \"" + p.lexema + "\" en renglon: " + p.renglon);
+                                System.exit(0);
+                            }
+                        }
+                    }
                 p = p.sig;
                 break;
             case 101:   //Entero    
