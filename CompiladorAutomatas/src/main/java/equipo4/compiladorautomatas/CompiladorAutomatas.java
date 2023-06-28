@@ -10,7 +10,7 @@ public class CompiladorAutomatas {
                 lexico.sintaxis();
                 
                 if(!lexico.errorEncontrado){
-                    System.out.println("Analisis Sintactico terminado");
+                    System.out.println("Analisis Sintactico y Semantico terminado");
                 }
             }
     }

@@ -240,7 +240,7 @@ public class compi {
 
     //SINTAXIS
     public void sintaxis() {
-        System.out.println("\nSINTACTICO\n");
+        System.out.println("\n...SINTACTICO Y SEMANTICO...\n");
         p = cabeza;
         while (p != null) {
 
@@ -283,9 +283,9 @@ public class compi {
                         }
                         if (p.token == 123) {
                             //System.out.println(p.lexema + "--" + p.renglon);
-                            for(int i = 0;i<tabla.size();i++){
+                            /*for(int i = 0;i<tabla.size();i++){
                             System.out.println(tabla.get(i).ide + " " + tabla.get(i).tipo + " " + tabla.get(i).ambito);
-                            }
+                            }*/
                             break;
                         } else {
                             System.out.println("Error: 509: Se espera un }");
@@ -319,8 +319,24 @@ public class compi {
                     //Ingreso de ID's
                     //System.out.println(p.lexema);
                     simbolo variable = new simbolo(p.lexema, null, null, p.renglon, false);
-                    tabla.add(variable);
-                    
+                     
+                    for(int i = 0;i<tabla.size();){
+                        //System.out.println(tabla.get(i).ide);
+                        if(tabla.get(i).ide.equals(p.lexema)){
+                            System.out.println("Error 525: Variable ya declarada. Variable \"" + p.lexema + "\" en renglon: " + p.renglon);
+                            System.exit(0);
+                        }
+                        else{
+                            if(i==(tabla.size() - 1)){
+                                tabla.add(variable);
+                                break;
+                            }
+                            else{
+                                i = i+1;
+                            }
+                        }
+                    }
+
                     p = p.sig;
                     if (p.token == 117) {
                         p = p.sig;
@@ -339,7 +355,7 @@ public class compi {
                 //System.out.println(p.lexema);
                 for(int i = 0;i<tabla.size();i++){
                     if(tabla.get(i).tipo == null){
-                        //System.out.println(tabla.get(i).ide);
+                        //System.out.println(tabla.get(i).ide + " " + tabla.get(i).tipo);
                         simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, false);
                         tabla.set(i, variable);
                     }
@@ -402,7 +418,7 @@ public class compi {
                             }
                             else{
                                 //System.out.println("TRUE print");
-                                simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, true);
+                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true);
                                 tabla.set(i, variable);
                                 break;
                             }
@@ -456,7 +472,7 @@ public class compi {
                             }
                             else{
                                 //System.out.println("TRUE print");
-                                simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, true);
+                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true);
                                 tabla.set(i, variable);
                                 break;
                             }
@@ -503,7 +519,7 @@ public class compi {
                             }
                             else{
                                 //System.out.println("TRUE id");
-                                simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, true);
+                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true);
                                 tabla.set(i, variable);
                                 break;
                             }
@@ -647,9 +663,14 @@ public class compi {
         if(p.token == 103 || p.token == 104){
             signo();
             termino();
-        } else if(p.sig.token == 103 || p.sig.token == 104 || p.sig.token == 115){
+        } else if(p.sig.token == 103 || p.sig.token == 104 || p.sig.token == 105 || p.sig.token == 106 || p.sig.token == 114 || p.sig.token == 115){
             factor();
-            operador_aditivo();
+            if(p.token == 103 || p.token == 104 || p.token == 115){
+                operador_aditivo();
+            }
+            if(p.token == 105 || p.token == 106 || p.token == 114){
+                operador_mult();
+            }
             //System.out.println(p.lexema);
             //p = p.sig;
             expresion_simple();
@@ -729,7 +750,7 @@ public class compi {
                             }
                             else{
                                 //System.out.println("TRUE factor");
-                                simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, true);
+                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true);
                                 tabla.set(i, variable);
                                 break;
                             }
