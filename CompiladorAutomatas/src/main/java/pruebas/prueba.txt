@@ -9,11 +9,11 @@ class A{
     print (b);
     a = 9.9;
     secuencial = "Hola";
-    /* variable = a == c; */
+    variable = true;
     c = 5 * (5 / 5);
     while(a>=b){
         while((5+5)<c){
-            print (anidado);
+            variable = true;
         }
     }
     while(a<b){

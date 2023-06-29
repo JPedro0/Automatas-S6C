@@ -11,6 +11,7 @@ public class compi {
     String lexema = "";
     boolean errorEncontrado = false, endfile = false;
     List<simbolo> tabla = new ArrayList<>();
+    List<String> operacion = new ArrayList<>();
 
     String archivo = "C:\\Users\\nuevo\\Desktop\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
 
@@ -266,7 +267,17 @@ public class compi {
                             p = p.sig;
                         }
                         while (p.token != 123) { //Busca un }
+
                             statement();
+                            
+                            /*for(int i = 0;i<operacion.size();i++){
+                            System.out.println(operacion.get(i));
+                            }*/
+                            
+                            comprobarSemantico();
+                            
+                            operacion = new ArrayList<>();
+                            
                             if (p.sig == null) {
                                 break;
                             } else {
@@ -534,9 +545,10 @@ public class compi {
                             }
                         }
                     }
-            
+            operacion.add(p.lexema);
             p = p.sig;
             if (p.token == 125) {
+                operacion.add(p.lexema);
                 p = p.sig;
                 expresion_simple();
                 
@@ -544,6 +556,9 @@ public class compi {
                 if (p.token != 119) {
                     System.out.println("Error 512: Se espera un ;");
                     System.exit(0);
+                }
+                else{
+                    operacion.add(p.lexema);
                 }
             } else {
                 System.out.println("Error 517: Se espera un =");
@@ -553,14 +568,26 @@ public class compi {
         if (p.token == 206) { //while(1>2)
             p = p.sig;
             if (p.token == 120) {
+                operacion.add(p.lexema);
                 p = p.sig;
                 expresion_condicional();
+                comprobarSemantico();
                 if (p.token == 121) {
+                    operacion.add(p.lexema);
                     p = p.sig;
                     if (p.token == 122) {
                         p = p.sig;
                         while (p.token != 123) { //Busca un }
+                            
+                            operacion = new ArrayList<>();
+                            
                             statement();
+                            
+                            comprobarSemantico();
+                            
+                            operacion = new ArrayList<>();
+                            
+                            
                             if (p.sig == null) {
                                 System.out.println("Error 509: Se espera un }");
                                 System.exit(0);
@@ -592,14 +619,25 @@ public class compi {
         if (p.token == 204) { // IF{}
             p = p.sig;
             if (p.token == 120) {
+                operacion.add(p.lexema);
                 p = p.sig;
                 expresion_condicional();
+                comprobarSemantico();
                 if (p.token == 121) {
+                    operacion.add(p.lexema);
                     p = p.sig;
                     if (p.token == 122) {
                         p = p.sig;
                         while (p.token != 123) { //Busca un }
+                            
+                            operacion = new ArrayList<>();
+                            
                             statement();
+                            
+                            comprobarSemantico();
+                            
+                            operacion = new ArrayList<>();
+                            
                             if (p.sig == null) {
                                 System.out.println("Error 509: Se espera un }");
                                 System.exit(0);
@@ -615,7 +653,15 @@ public class compi {
                                             p = p.sig;
                                             while (p.token != 123) { //Busca un }
                                                 //System.out.println(p.lexema);
+                                                
+                                                operacion = new ArrayList<>();
+                            
                                                 statement();
+                            
+                                                comprobarSemantico();
+                            
+                                                operacion = new ArrayList<>();
+                            
                                                 if (p.sig == null) {
                                                     //System.out.println("Se espera un }");
                                                     System.exit(0);
@@ -675,9 +721,11 @@ public class compi {
             //p = p.sig;
             expresion_simple();
         } else if(p.token == 120){
+            operacion.add(p.lexema);
             p = p.sig;
             expresion_simple();
             if(p.token == 121){
+                operacion.add(p.lexema);
                 p = p.sig;
             } else {
                 System.out.println("Error 516: Se espera un )");
@@ -690,13 +738,19 @@ public class compi {
     }
 
     private void expresion_condicional() {
+        
+        if(p.token == 202 || p.token == 203){
+            p=p.sig;
+        }
+        else{
         //System.out.println("1"+p.lexema);
         expresion_simple();
         //System.out.println("2"+p.lexema);
         operador_relacional();
         //System.out.println("3"+p.lexema);
         expresion_simple();
-        //System.out.println(p.token);
+        //System.out.println(p.token);                            
+        }
     }
 
     private void signo() {
@@ -710,6 +764,7 @@ public class compi {
 
     private void operador_aditivo() {
         if (p.token == 103 || p.token == 104 || p.token == 115) {
+            operacion.add(p.lexema);
             p = p.sig;
         } else {
             System.out.println("Error 519: Se espera un OPERADOR ADITIVO");
@@ -719,6 +774,7 @@ public class compi {
 
     private void operador_mult() {
         if (p.token == 105 || p.token == 106 || p.token == 114) {
+            operacion.add(p.lexema);
             p = p.sig;
         } else {
             System.out.println("Error 520: Se espera un OPERADOR MULTIPLICATIVO");
@@ -729,6 +785,7 @@ public class compi {
     private void operador_relacional() {
        
         if (p.token == 108 || p.token == 109 || p.token == 110 || p.token == 111 || p.token == 112 || p.token == 113) {
+            operacion.add(p.lexema);
             p = p.sig;
         } else {
             //System.out.println(p.lexema);
@@ -765,20 +822,32 @@ public class compi {
                             }
                         }
                     }
+                operacion.add(p.lexema);
                 p = p.sig;
                 break;
             case 101:   //Entero    
+                operacion.add(p.lexema);
                 p = p.sig;
                 break;
             case 102:   //Decimal
+                operacion.add(p.lexema);
                 p = p.sig;
                 break;
             case 124:   //Cadena
+                operacion.add(p.lexema);
                 p = p.sig;
                 break;
             case 116:
                 p = p.sig;
                 factor();
+                break;
+            case 202:   //true
+                operacion.add(p.lexema);
+                p = p.sig;
+                break;
+            case 203:   //false
+                operacion.add(p.lexema);
+                p = p.sig;
                 break;
             default:
                 System.out.println("Error 522: Se espera un DATO");
@@ -797,6 +866,84 @@ public class compi {
         else{
             //System.out.println("si");
             factor();
+        }
+    }
+    
+    private void comprobarSemantico(){
+        List<String> operacionTipos = new ArrayList<>();
+        String id = null,OP=null;
+        String parentesis = "(";
+        Boolean puntero = false;
+        if(operacion.isEmpty()){
+            
+        }
+        else{
+            id=operacion.get(0);
+            System.out.println("\n"+id);
+            if(id.startsWith("(")){
+                for(int j=1;j<(operacion.size());j++){
+                    System.out.println(operacion.get(j) + " " + operacion.get(j).getClass());
+                    
+                    if(operacion.get(j).equals("5")){
+                        System.out.println("si");
+                    }
+                    
+                    if(operacion.get(j) == "0" ||operacion.get(j)=="1"||operacion.get(j)=="2"||operacion.get(j)=="3"
+                            ||operacion.get(j)=="4"||operacion.get(j)=="5"||operacion.get(j)=="6"||operacion.get(j)=="7"
+                            ||operacion.get(j)=="8"||operacion.get(j)=="9"){
+                        if(puntero){
+                            operacionTipos.add("int");
+                            OP = "int";
+                        }
+                    }
+                    else if(operacion.get(j) == "." && operacionTipos.get(operacionTipos.size()-1) == "int"){
+                        operacionTipos.remove(operacionTipos.size()-1);
+                        operacionTipos.add("double");
+                        OP="double";
+                    }
+                    else if(operacion.get(j)=="+" || operacion.get(j)=="-" || operacion.get(j)=="*" || 
+                            operacion.get(j)=="/" || operacion.get(j)=="^"){
+                        operacionTipos.add(operacion.get(j));
+                        if(operacion.get(j)=="/"){
+                            operacionTipos.add("double");
+                            OP="double";
+                        }
+                    }
+                    else{
+                        operacionTipos.add(operacion.get(j));
+                    }
+                }
+                for(int i = 0;i<operacionTipos.size();i++){
+                    System.out.println(operacionTipos.get(i));
+                }
+                System.out.println(OP);
+            }
+            else{
+                for(int i = 0;i<tabla.size();){ //AGREGAR ID
+                //System.out.println(operacion.get(i));
+                    if(tabla.get(i).ide.equals(id)){
+                        operacionTipos.add(tabla.get(i).tipo);
+                        break;
+                    }
+                    else{
+                        if(i!=(tabla.size() - 1)){
+                            i = i+1;
+                        }
+                        else{
+                            System.out.println("Error 526: .");
+                            System.exit(0);
+                        }
+                    }
+                }
+                operacionTipos.add(operacion.get(1));   //AGREGAR =
+                
+                //AGREGAR EL RESTO
+                
+                
+                System.out.println(operacionTipos.get(0) + operacionTipos.get(1));
+            }
+        
+            
         }
     }
 }
