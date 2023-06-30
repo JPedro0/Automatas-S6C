@@ -879,7 +879,7 @@ public class compi {
         }
         else{
             id=operacion.get(0);
-            System.out.println("\n");
+            //System.out.println("\n");
             if(id.startsWith("(")){
                 for(int j=1;j<(operacion.size());j++){
                     //System.out.println(operacion.get(j));
@@ -917,26 +917,13 @@ public class compi {
                             }
                         }
                     }
-                    /*else if(operacion.get(j).charAt(0) == '0'||operacion.get(j).charAt(0) == '1'||operacion.get(j).charAt(0) == '2'
-                            ||operacion.get(j).charAt(0) == '3'||operacion.get(j).charAt(0) == '4'||operacion.get(j).charAt(0) == '5'
-                            ||operacion.get(j).charAt(0) == '6'||operacion.get(j).charAt(0) == '7'||operacion.get(j).charAt(0) == '8'
-                            ||operacion.get(j).charAt(0) == '9'){
-                        if(operacion.get(j).length()>1){
-                            if(operacion.get(j).charAt(1)=='.'){
-                                operacionTipos.remove(operacionTipos.size()-1);
-                                operacionTipos.add("double");
-                                puntero=true;
-                                //System.out.println("ño");
-                                OP="double";
-                            }
-                        }
-                    }*/
                     else if(operacion.get(j).equals("+")||operacion.get(j).equals("-")||operacion.get(j).equals("*")
                             ||operacion.get(j).equals("/")||operacion.get(j).equals("^")){
                         operacionTipos.add(operacion.get(j));
                         if(operacion.get(j).equals("/")){
                             operacionTipos.add("double");
                             //System.out.println("double");
+                            puntero=true;
                             OP="double";
                         }
                     }
@@ -956,7 +943,10 @@ public class compi {
                             if(operacion.get(j).equals(tabla.get(k).ide)){
                                 operacionTipos.add(tabla.get(k).tipo);
                                 if(tabla.get(k).tipo.equals("int")){
-                                    OP = "int";
+                                    if(puntero==false){
+                                        //System.out.println(puntero);
+                                        OP="int";
+                                    }
                                 }
                                 if(tabla.get(k).tipo.equals("double")){
                                     OP = "double";
@@ -965,6 +955,7 @@ public class compi {
                                     OP = "string";
                                 }
                                 if(tabla.get(k).tipo.equals("bool")){
+                                    System.out.println("yes");
                                     OP = "bool";
                                 }
                                 break;
@@ -982,10 +973,10 @@ public class compi {
                     }
                 }
                 
-                for(int i = 0;i<operacionTipos.size();i++){
+                /*for(int i = 0;i<operacionTipos.size();i++){
                     System.out.println(operacionTipos.get(i));
                 }
-                //System.out.println("Operador: "+OP);
+                System.out.println("Operador: "+OP);*/
             }
             else{
                 for(int i = 0;i<tabla.size();){ //AGREGAR ID
@@ -1050,13 +1041,16 @@ public class compi {
                         if(operacion.get(j).equals("/")){
                             //operacionTipos.add("double");
                             //System.out.println("double");
+                            puntero=true;
                             OP="double";
                         }
                     }
                     else if(operacion.get(j).charAt(0)=='"'){
+                        OP = "string";
                         operacionTipos.add("string");
                     }
                     else if(operacion.get(j).equals("true")||operacion.get(j).equals("false")){
+                        OP = "bool";
                         operacionTipos.add("bool");
                     }
                     else if(operacion.get(j).equals("(")||operacion.get(j).equals(")")||operacion.get(j).equals(";")){
@@ -1070,7 +1064,10 @@ public class compi {
                             if(operacion.get(j).equals(tabla.get(k).ide)){
                                 operacionTipos.add(tabla.get(k).tipo);
                                 if(tabla.get(k).tipo.equals("int")){
-                                    OP = "int";
+                                    if(puntero==false){
+                                        //System.out.println(puntero);
+                                        OP="int";
+                                    }
                                 }
                                 if(tabla.get(k).tipo.equals("double")){
                                     OP = "double";
@@ -1078,7 +1075,7 @@ public class compi {
                                 if(tabla.get(k).tipo.equals("string")){
                                     OP = "string";
                                 }
-                                if(tabla.get(k).tipo.equals("bool")){
+                                if(tabla.get(k).tipo.equals("bool")){                                    
                                     OP = "bool";
                                 }
                                 break;
@@ -1088,7 +1085,7 @@ public class compi {
                                     k = k+1;
                                 }
                                 else{
-                                    System.out.println("Error 526: .");
+                                    System.out.println("Error 526: Algo.");
                                     System.exit(0);
                                 }
                             }
@@ -1097,15 +1094,36 @@ public class compi {
                     
                 }
                 
-                for(int i = 0;i<operacionTipos.size();i++){
+                /*for(int i = 0;i<operacionTipos.size();i++){
                     System.out.println(operacionTipos.get(i));
                 }
-                //System.out.println("Operador: "+OP);
-                
-                //COMPATIBILIDAD DE TIPOS
+                System.out.println("Operador: "+OP);*/
             }
-        
+
+            //COMPATIBILIDAD DE TIPOS
+            Boolean buffer = null;
             
+            for(int i = 0;i<operacionTipos.size();){
+                if(operacionTipos.get(i).equals(OP)){
+                    buffer = true;
+                    //System.out.println("Todo bien");
+                    break;
+                }
+                else{
+                    if(operacionTipos.get(i).equals("("))
+                        i=i+1;
+                    else if(i==(operacionTipos.size()-1) || i <= 1){
+                        buffer = false;
+                        //System.out.println("Todo mal");
+                        break;
+                        
+                    }
+                }
+            }
+            if(!buffer){
+                System.out.println("Error 527: Contunto de tipos no coinciden. Renglon: " + p.renglon);
+                System.exit(0);
+            }
         }
     }
 }
