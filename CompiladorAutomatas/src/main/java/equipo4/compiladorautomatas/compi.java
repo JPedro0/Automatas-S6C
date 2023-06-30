@@ -13,7 +13,7 @@ public class compi {
     List<simbolo> tabla = new ArrayList<>();
     List<String> operacion = new ArrayList<>();
 
-    String archivo = "C:\\Users\\nuevo\\Desktop\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
+    String archivo = "E:\\Users\\jpedr\\Escritorio\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
 
     int matriz[][] = {
         /*      l   d   .   +   -       *   /   ^   >   <   =   !   &   |   ,   :   ;   (   )   {   }   "   ed  tab nl  oc  eof*/
@@ -269,7 +269,7 @@ public class compi {
                         while (p.token != 123) { //Busca un }
 
                             statement();
-                            
+                            //System.out.println("\n");
                             /*for(int i = 0;i<operacion.size();i++){
                             System.out.println(operacion.get(i));
                             }*/
@@ -879,44 +879,113 @@ public class compi {
         }
         else{
             id=operacion.get(0);
-            System.out.println("\n"+id);
+            System.out.println("\n");
             if(id.startsWith("(")){
                 for(int j=1;j<(operacion.size());j++){
-                    System.out.println(operacion.get(j) + " " + operacion.get(j).getClass());
+                    //System.out.println(operacion.get(j));
                     
-                    if(operacion.get(j).equals("5")){
-                        System.out.println("si");
-                    }
-                    
-                    if(operacion.get(j) == "0" ||operacion.get(j)=="1"||operacion.get(j)=="2"||operacion.get(j)=="3"
-                            ||operacion.get(j)=="4"||operacion.get(j)=="5"||operacion.get(j)=="6"||operacion.get(j)=="7"
-                            ||operacion.get(j)=="8"||operacion.get(j)=="9"){
-                        if(puntero){
+                    if(operacion.get(j).charAt(0)=='0'||operacion.get(j).charAt(0)=='1'||operacion.get(j).equals("2")
+                            ||operacion.get(j).charAt(0)=='3'||operacion.get(j).charAt(0)=='4'||operacion.get(j).charAt(0)=='5'
+                            ||operacion.get(j).charAt(0)=='6'||operacion.get(j).charAt(0)=='7'||operacion.get(j).charAt(0)=='8'
+                            ||operacion.get(j).charAt(0)=='9'){
+                        //System.out.println("test");
+                        if(operacion.get(j).length()>1){
+                            for(int p=1;p<operacion.get(j).length();p++){
+                                if(operacion.get(j).charAt(1)=='.'){
+                                    operacionTipos.remove(operacionTipos.size()-1);
+                                    operacionTipos.add("double");
+                                    puntero=true;
+                                    //System.out.println("ño");
+                                    OP="double";
+                                }
+                                else{
+                                    if(p==(operacion.get(j).length()-1)){
+                                        if(puntero==false){
+                                            //System.out.println("ñeee");
+                                            OP="int";
+                                            operacionTipos.add("int");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else{
                             operacionTipos.add("int");
-                            OP = "int";
+                            if(puntero==false){
+                            //System.out.println(puntero);
+                            OP="int";
+                            }
                         }
                     }
-                    else if(operacion.get(j) == "." && operacionTipos.get(operacionTipos.size()-1) == "int"){
-                        operacionTipos.remove(operacionTipos.size()-1);
-                        operacionTipos.add("double");
-                        OP="double";
-                    }
-                    else if(operacion.get(j)=="+" || operacion.get(j)=="-" || operacion.get(j)=="*" || 
-                            operacion.get(j)=="/" || operacion.get(j)=="^"){
+                    /*else if(operacion.get(j).charAt(0) == '0'||operacion.get(j).charAt(0) == '1'||operacion.get(j).charAt(0) == '2'
+                            ||operacion.get(j).charAt(0) == '3'||operacion.get(j).charAt(0) == '4'||operacion.get(j).charAt(0) == '5'
+                            ||operacion.get(j).charAt(0) == '6'||operacion.get(j).charAt(0) == '7'||operacion.get(j).charAt(0) == '8'
+                            ||operacion.get(j).charAt(0) == '9'){
+                        if(operacion.get(j).length()>1){
+                            if(operacion.get(j).charAt(1)=='.'){
+                                operacionTipos.remove(operacionTipos.size()-1);
+                                operacionTipos.add("double");
+                                puntero=true;
+                                //System.out.println("ño");
+                                OP="double";
+                            }
+                        }
+                    }*/
+                    else if(operacion.get(j).equals("+")||operacion.get(j).equals("-")||operacion.get(j).equals("*")
+                            ||operacion.get(j).equals("/")||operacion.get(j).equals("^")){
                         operacionTipos.add(operacion.get(j));
-                        if(operacion.get(j)=="/"){
+                        if(operacion.get(j).equals("/")){
                             operacionTipos.add("double");
+                            //System.out.println("double");
                             OP="double";
                         }
                     }
-                    else{
+                    else if(operacion.get(j).equals("<")||operacion.get(j).equals(">")
+                            ||operacion.get(j).equals("<=")||operacion.get(j).equals(">=")
+                            ||operacion.get(j).equals("==")||operacion.get(j).equals("!=")){
                         operacionTipos.add(operacion.get(j));
                     }
+                    else if(operacion.get(j).equals("(")||operacion.get(j).equals(")")){
+                        operacionTipos.add(operacion.get(j));
+                    }
+                    else{ //ID's
+                        //operacionTipos.add(operacion.get(j));
+                        
+                        for(int k = 0;k<tabla.size();){
+                            //System.out.println(operacion.get(j).equals(tabla.get(k).ide));
+                            if(operacion.get(j).equals(tabla.get(k).ide)){
+                                operacionTipos.add(tabla.get(k).tipo);
+                                if(tabla.get(k).tipo.equals("int")){
+                                    OP = "int";
+                                }
+                                if(tabla.get(k).tipo.equals("double")){
+                                    OP = "double";
+                                }
+                                if(tabla.get(k).tipo.equals("string")){
+                                    OP = "string";
+                                }
+                                if(tabla.get(k).tipo.equals("bool")){
+                                    OP = "bool";
+                                }
+                                break;
+                            }
+                            else{
+                                if(k!=tabla.size()){
+                                    k = k+1;
+                                }
+                                else{
+                                    System.out.println("Error 526: .");
+                                    System.exit(0);
+                                }
+                            }
+                        }
+                    }
                 }
+                
                 for(int i = 0;i<operacionTipos.size();i++){
                     System.out.println(operacionTipos.get(i));
                 }
-                System.out.println(OP);
+                //System.out.println("Operador: "+OP);
             }
             else{
                 for(int i = 0;i<tabla.size();){ //AGREGAR ID
@@ -937,10 +1006,103 @@ public class compi {
                 }
                 operacionTipos.add(operacion.get(1));   //AGREGAR =
                 
-                //AGREGAR EL RESTO
+                for(int j = 2;j<operacion.size();j++){
+                    //operacionTipos.add(operacion.get(j));
+                    
+                    if(operacion.get(j).charAt(0)=='0'||operacion.get(j).charAt(0)=='1'||operacion.get(j).equals("2")
+                            ||operacion.get(j).charAt(0)=='3'||operacion.get(j).charAt(0)=='4'||operacion.get(j).charAt(0)=='5'
+                            ||operacion.get(j).charAt(0)=='6'||operacion.get(j).charAt(0)=='7'||operacion.get(j).charAt(0)=='8'
+                            ||operacion.get(j).charAt(0)=='9'){
+                        //System.out.println("test");
+                        if(operacion.get(j).length()>1){
+                            for(int p=1;p<operacion.get(j).length();p++){
+                                if(operacion.get(j).charAt(1)=='.'){
+                                    if(j>2){
+                                        operacionTipos.remove(operacionTipos.size()-1);
+                                    }
+                                    operacionTipos.add("double");
+                                    puntero=true;
+                                    //System.out.println("ño");
+                                    OP="double";
+                                }
+                                else{
+                                    if(p==(operacion.get(j).length()-1)){
+                                        if(puntero==false){
+                                            //System.out.println("ñeee");
+                                            OP="int";
+                                            operacionTipos.add("int");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            operacionTipos.add("int");
+                            if(puntero==false){
+                            //System.out.println(puntero);
+                            OP="int";
+                            }
+                        }
+                    }
+                    else if(operacion.get(j).equals("+")||operacion.get(j).equals("-")||operacion.get(j).equals("*")
+                            ||operacion.get(j).equals("/")||operacion.get(j).equals("^")){
+                        operacionTipos.add(operacion.get(j));
+                        if(operacion.get(j).equals("/")){
+                            //operacionTipos.add("double");
+                            //System.out.println("double");
+                            OP="double";
+                        }
+                    }
+                    else if(operacion.get(j).charAt(0)=='"'){
+                        operacionTipos.add("string");
+                    }
+                    else if(operacion.get(j).equals("true")||operacion.get(j).equals("false")){
+                        operacionTipos.add("bool");
+                    }
+                    else if(operacion.get(j).equals("(")||operacion.get(j).equals(")")||operacion.get(j).equals(";")){
+                        operacionTipos.add(operacion.get(j));
+                    }
+                    else{ //ID's
+                        //operacionTipos.add(operacion.get(j));
+                        
+                        for(int k = 0;k<tabla.size();){
+                            //System.out.println(operacion.get(j).equals(tabla.get(k).ide));
+                            if(operacion.get(j).equals(tabla.get(k).ide)){
+                                operacionTipos.add(tabla.get(k).tipo);
+                                if(tabla.get(k).tipo.equals("int")){
+                                    OP = "int";
+                                }
+                                if(tabla.get(k).tipo.equals("double")){
+                                    OP = "double";
+                                }
+                                if(tabla.get(k).tipo.equals("string")){
+                                    OP = "string";
+                                }
+                                if(tabla.get(k).tipo.equals("bool")){
+                                    OP = "bool";
+                                }
+                                break;
+                            }
+                            else{
+                                if(k!=tabla.size()){
+                                    k = k+1;
+                                }
+                                else{
+                                    System.out.println("Error 526: .");
+                                    System.exit(0);
+                                }
+                            }
+                        }
+                    }
+                    
+                }
                 
+                for(int i = 0;i<operacionTipos.size();i++){
+                    System.out.println(operacionTipos.get(i));
+                }
+                //System.out.println("Operador: "+OP);
                 
-                System.out.println(operacionTipos.get(0) + operacionTipos.get(1));
+                //COMPATIBILIDAD DE TIPOS
             }
         
             
