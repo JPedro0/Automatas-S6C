@@ -13,7 +13,7 @@ public class compi {
     List<simbolo> tabla = new ArrayList<>();
     List<String> operacion = new ArrayList<>();
 
-    String archivo = "E:\\Users\\jpedr\\Escritorio\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
+    String archivo = "C:\\Users\\nuevo\\Desktop\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
 
     int matriz[][] = {
         /*      l   d   .   +   -       *   /   ^   >   <   =   !   &   |   ,   :   ;   (   )   {   }   "   ed  tab nl  oc  eof*/
@@ -333,6 +333,10 @@ public class compi {
                      
                     for(int i = 0;i<tabla.size();){
                         //System.out.println(tabla.get(i).ide);
+                        if(tabla.get(0).ide.equals(p.lexema)){
+                            System.out.println("Error 528: No se puede usar nombre de clase. Variable \"" + p.lexema + "\" en renglon: " + p.renglon);
+                            System.exit(0);
+                        }
                         if(tabla.get(i).ide.equals(p.lexema)){
                             System.out.println("Error 525: Variable ya declarada. Variable \"" + p.lexema + "\" en renglon: " + p.renglon);
                             System.exit(0);
@@ -955,7 +959,7 @@ public class compi {
                                     OP = "string";
                                 }
                                 if(tabla.get(k).tipo.equals("bool")){
-                                    System.out.println("yes");
+                                    //System.out.println("yes");
                                     OP = "bool";
                                 }
                                 break;
@@ -1085,7 +1089,7 @@ public class compi {
                                     k = k+1;
                                 }
                                 else{
-                                    System.out.println("Error 526: Algo.");
+                                    System.out.println("Error 526: Algo. Renglon: " + p.renglon);
                                     System.exit(0);
                                 }
                             }
@@ -1121,7 +1125,7 @@ public class compi {
                 }
             }
             if(!buffer){
-                System.out.println("Error 527: Contunto de tipos no coinciden. Renglon: " + p.renglon);
+                System.out.println("Error 527: Conjunto de tipos no coinciden. Renglon: " + p.renglon);
                 System.exit(0);
             }
         }

@@ -3,7 +3,7 @@
 class A{
     var a,b,c : int;
     var anidado, secuencial, final : string;
-    var variable : bool;
+    var variable  : bool;
 
     read (b);
     print (b);
@@ -16,7 +16,7 @@ class A{
             variable = true;
         }
     }
-    while(a<b){
+    while(anidado==secuencial){
         print (secuencial);
     }
 
@@ -26,9 +26,9 @@ class A{
         }
     }
     if(b!=a){
-        print (secuencial);
+        variable = true;
     }
     else{
-        
+        variable = false;
     }
 }
