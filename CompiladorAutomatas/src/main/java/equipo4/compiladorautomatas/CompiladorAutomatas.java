@@ -11,6 +11,8 @@ public class CompiladorAutomatas {
                 
                 if(!lexico.errorEncontrado){
                     System.out.println("Analisis Sintactico y Semantico terminado");
+                    
+                    lexico.siguientePaso();
                 }
             }
     }

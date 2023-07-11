@@ -23,6 +23,7 @@ class A{
     if(c==a){ 
         if(b!=a){
             print (anidado);
+            variable = true;
         }
     }
     if(b!=a){

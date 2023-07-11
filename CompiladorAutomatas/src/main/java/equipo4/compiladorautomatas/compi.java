@@ -12,6 +12,7 @@ public class compi {
     boolean errorEncontrado = false, endfile = false;
     List<simbolo> tabla = new ArrayList<>();
     List<String> operacion = new ArrayList<>();
+    List<String> operaciones = new ArrayList<>();
 
     String archivo = "C:\\Users\\nuevo\\Desktop\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
 
@@ -249,7 +250,7 @@ public class compi {
             if (p.token == 211) {
                 p = p.sig;
                 if (p.token == 100) {
-                    simbolo variable = new simbolo(p.lexema, "class", p.lexema, p.renglon, true);
+                    simbolo variable = new simbolo(p.lexema, "class", p.lexema, p.renglon, true, 1);
                     tabla.add(variable);
                     p = p.sig;
                     if (p.token == 122) {
@@ -329,7 +330,7 @@ public class compi {
                 if (p.token == 100) {
                     //Ingreso de ID's
                     //System.out.println(p.lexema);
-                    simbolo variable = new simbolo(p.lexema, null, null, p.renglon, false);
+                    simbolo variable = new simbolo(p.lexema, null, null, p.renglon, false, 1);
                      
                     for(int i = 0;i<tabla.size();){
                         //System.out.println(tabla.get(i).ide);
@@ -371,7 +372,20 @@ public class compi {
                 for(int i = 0;i<tabla.size();i++){
                     if(tabla.get(i).tipo == null){
                         //System.out.println(tabla.get(i).ide + " " + tabla.get(i).tipo);
-                        simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, false);
+                        simbolo variable = new simbolo(tabla.get(i).ide, p.lexema, "a", tabla.get(i).num_linea, false,0);
+                        if(p.lexema.equals("int")){
+                            variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, false,4);
+                        }
+                        if(p.lexema.equals("double")){
+                            variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, false,17);
+                        }
+                        if(p.lexema.equals("string")){
+                            variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, false,16);
+                        }
+                        if(p.lexema.equals("bool")){
+                            variable = new simbolo(tabla.get(i).ide, p.lexema, null, tabla.get(i).num_linea, false,1);
+                        }
+                        
                         tabla.set(i, variable);
                     }
                 }
@@ -433,7 +447,7 @@ public class compi {
                             }
                             else{
                                 //System.out.println("TRUE print");
-                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true);
+                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true, tabla.get(i).tamaño);
                                 tabla.set(i, variable);
                                 break;
                             }
@@ -487,7 +501,7 @@ public class compi {
                             }
                             else{
                                 //System.out.println("TRUE print");
-                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true);
+                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true, tabla.get(i).tamaño);
                                 tabla.set(i, variable);
                                 break;
                             }
@@ -534,7 +548,7 @@ public class compi {
                             }
                             else{
                                 //System.out.println("TRUE id");
-                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true);
+                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true, tabla.get(i).tamaño);
                                 tabla.set(i, variable);
                                 break;
                             }
@@ -563,6 +577,7 @@ public class compi {
                 }
                 else{
                     operacion.add(p.lexema);
+                    armarOperacion();
                 }
             } else {
                 System.out.println("Error 517: Se espera un =");
@@ -578,6 +593,7 @@ public class compi {
                 comprobarSemantico();
                 if (p.token == 121) {
                     operacion.add(p.lexema);
+                    armarOperacion();
                     p = p.sig;
                     if (p.token == 122) {
                         p = p.sig;
@@ -590,7 +606,6 @@ public class compi {
                             comprobarSemantico();
                             
                             operacion = new ArrayList<>();
-                            
                             
                             if (p.sig == null) {
                                 System.out.println("Error 509: Se espera un }");
@@ -629,6 +644,7 @@ public class compi {
                 comprobarSemantico();
                 if (p.token == 121) {
                     operacion.add(p.lexema);
+                    armarOperacion();
                     p = p.sig;
                     if (p.token == 122) {
                         p = p.sig;
@@ -663,7 +679,7 @@ public class compi {
                                                 statement();
                             
                                                 comprobarSemantico();
-                            
+                                                
                                                 operacion = new ArrayList<>();
                             
                                                 if (p.sig == null) {
@@ -811,7 +827,7 @@ public class compi {
                             }
                             else{
                                 //System.out.println("TRUE factor");
-                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true);
+                                simbolo variable = new simbolo(tabla.get(i).ide, tabla.get(i).tipo, tabla.get(i).valor, tabla.get(i).num_linea, true, tabla.get(i).tamaño);
                                 tabla.set(i, variable);
                                 break;
                             }
@@ -1129,5 +1145,17 @@ public class compi {
                 System.exit(0);
             }
         }
+    }
+    
+    public void siguientePaso(){
+        genIntermedio intermedio = new genIntermedio(cabeza,tabla,operaciones);
+    }
+    
+    private void armarOperacion(){
+        String texto = "";
+        for(int i = 0; i < operacion.size();i++){
+            texto = texto+operacion.get(i);
+        }
+        operaciones.add(texto);
     }
 }
