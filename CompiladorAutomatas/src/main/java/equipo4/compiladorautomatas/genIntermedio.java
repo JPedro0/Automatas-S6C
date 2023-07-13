@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class genIntermedio {
-    nodo p;
+    nodo p,w;
     List<simbolo> tabla;
     List<String> operaciones;
     List<String> d;
@@ -59,10 +59,9 @@ public class genIntermedio {
                 }
             }
             else if(p.lexema.equals("while") || p.lexema.equals("if")){
-                d.add(p.lexema);
-                p = p.sig;
-                d.add(p.lexema);
-                p = p.sig;
+                w = p;
+                //p se queda en el if/while
+                w = w.sig.sig;
                 condicionales();
                 /*p = p.sig;
                 d.add(p.lexema);
@@ -83,9 +82,9 @@ public class genIntermedio {
             }
         }
         d.add("}");
-        for(int i = 0; i<d.size();i++){
+        /*for(int i = 0; i<d.size();i++){
             System.out.println(d.get(i));
-        }
+        }*/
     }
     
     private void notacionP(){
@@ -342,15 +341,147 @@ public class genIntermedio {
     
     //Fata de realizar
     private void condicionales(){ 
-        if(p.lexema.equals("(")){   
-            d.add(p.lexema);
-            p = p.sig;
+        buffer = new ArrayList<>();
+        buffer2 = new ArrayList<>();
+        bufferOP = new ArrayList<>();
+        
+        while(!w.sig.lexema.equals("{")){
+            if(w.token >=100 && w.token <= 102){
+                buffer.add(w.lexema);
+            }
+            else if(w.token == 124 || w.token == 202 || w.token == 203){
+                buffer.add(w.lexema);
+            }
+            else if(w.token == 103 || w.token == 104){ //Orden 5 + -
+                if(bufferOP.isEmpty()){
+                    bufferOP.add(w.lexema);
+                }else{
+                    if(bufferOP.get(bufferOP.size()-1).equals("+")||bufferOP.get(bufferOP.size()-1).equals("-")){
+                        buffer.add(bufferOP.get(bufferOP.size()-1));
+                        bufferOP.remove(bufferOP.size()-1);
+                        bufferOP.add(w.lexema);
+                    }
+                    else if(bufferOP.get(bufferOP.size()-1).equals("*")||bufferOP.get(bufferOP.size()-1).equals("/")){
+                        bufferOP.add(w.lexema);
+                    }
+                    else if(bufferOP.get(bufferOP.size()-1).equals("^")){
+                        bufferOP.add(w.lexema);
+                    }
+                    else if(bufferOP.get(bufferOP.size()-1).equals("=")){
+                        bufferOP.add(w.lexema);
+                    }
+                    else if(bufferOP.get(bufferOP.size()-1).equals("(")){
+                        bufferOP.add(w.lexema);
+                    }
+                }
+            }
+            else if(w.token == 105 || w.token == 106){  //Orden 4 * /
+                if(bufferOP.isEmpty()){
+                    bufferOP.add(w.lexema);
+                }else{
+                    if(bufferOP.get(bufferOP.size()-1).equals("+")||bufferOP.get(bufferOP.size()-1).equals("-")){
+                        System.out.println("a");
+                        for(int i = (bufferOP.size()-1); i >= 0;i--){
+                            if(bufferOP.get(i).equals("(") || bufferOP.get(i).equals("=")){
+                                break;
+                            }
+                            else{
+                                buffer.add(bufferOP.get(bufferOP.size()-1));
+                                bufferOP.remove(bufferOP.size()-1);
+                            }
+                        }
+                    }
+                    else if(bufferOP.get(bufferOP.size()-1).equals("*")||bufferOP.get(bufferOP.size()-1).equals("/")){
+                        buffer.add(bufferOP.get(bufferOP.size()-1));
+                        bufferOP.remove(bufferOP.size()-1);
+                        bufferOP.add(w.lexema);
+                    }
+                    else if(bufferOP.get(bufferOP.size()-1).equals("^")){
+                        bufferOP.add(w.lexema);
+                    }
+                    else if(bufferOP.get(bufferOP.size()-1).equals("=")){
+                        bufferOP.add(w.lexema);
+                    }
+                }
+            }
+            else if(w.token == 107){ // Orden 3 ^
+                if(bufferOP.isEmpty()){
+                    bufferOP.add(w.lexema);
+                }
+                else{
+                    if(bufferOP.get(bufferOP.size()-1).equals("+")||bufferOP.get(bufferOP.size()-1).equals("-")){
+                        for(int i = (bufferOP.size()-1); i > 0;i--){
+                            if(bufferOP.get(i).equals("(") || bufferOP.get(i).equals("=")){
+                                break;
+                            }
+                            else{
+                                buffer.add(bufferOP.get(bufferOP.size()-1));
+                                bufferOP.remove(bufferOP.size()-1);
+                            }
+                        }
+                    }
+                    else if(bufferOP.get(bufferOP.size()-1).equals("*")||bufferOP.get(bufferOP.size()-1).equals("/")){
+                        for(int i = (bufferOP.size()-1); i > 0;i--){
+                            if(bufferOP.get(i).equals("(") || bufferOP.get(i).equals("=")){
+                                break;
+                            }
+                            else{
+                                buffer.add(bufferOP.get(bufferOP.size()-1));
+                                bufferOP.remove(bufferOP.size()-1);
+                            }
+                        }
+                    }
+                    else if(bufferOP.get(bufferOP.size()-1).equals("^")){
+                        buffer.add(bufferOP.get(bufferOP.size()-1));
+                        bufferOP.remove(bufferOP.size()-1);
+                        bufferOP.add(w.lexema);
+                    }
+                    else if(bufferOP.get(bufferOP.size()-1).equals("=")){
+                        bufferOP.add(w.lexema);
+                    }
+                }
+            }
+            else if(w.token == 120){ // Orden 2 (
+                bufferOP.add(w.lexema);
+            }
+            else if(w.token == 121){ // Orden 2 )
+                for(int i = (bufferOP.size()-1); i > 0;i--){
+                    //System.out.println("a"+bufferOP.get(i));
+                    if(bufferOP.get(i).equals("(")){
+                        bufferOP.remove(i);
+                        break;
+                    }
+                    else{
+                        buffer.add(bufferOP.get(i));
+                        bufferOP.remove(i);
+                    }
+                }
+            }
+            else if(w.token >= 108 && w.token <= 113){    //Orden 1 CONDICIONALES
+                for(int i = (bufferOP.size()-1); i >= 0;i--){
+                    buffer.add(bufferOP.get(i));
+                    bufferOP.remove(i);
+                }
+                bufferOP.add(w.lexema);
+            }
+            
+            w = w.sig;
         }
-        else{
-            while(!p.lexema.equals("{")){
-                d.add(p.lexema);
-                p = p.sig;
+        
+        //Vaciar pila al final de todo
+        if(bufferOP.size() >= 1){
+            //System.out.println("a");
+            for(int i = (bufferOP.size()-1); i >= 0;i--){
+                buffer.add(bufferOP.get(i));
             }
         }
+        
+        String texto = "";
+        String ope = "";
+        for(int n=0;n<buffer.size();n++){
+            texto=texto+buffer.get(n);
+        }
+        System.out.println("Operacion: "+texto);
+        p=w;
     }
 }
