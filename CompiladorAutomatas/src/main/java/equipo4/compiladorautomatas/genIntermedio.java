@@ -18,14 +18,13 @@ public class genIntermedio {
         this.tabla = tabla;
         this.operaciones = operaciones;
         d = new ArrayList<>();
+        System.out.println("\n...GENERADOR DE CODIGO INTERMEDIO...\n");
         pruebas();
         generador();
     }
     
-    private void pruebas(){
-        System.out.println("\n...GENERADOR DE CODIGO INTERMEDIO...");
+    private void pruebas(){ 
         //System.out.println(p.lexema);
-        System.out.println("\n");
         for(int q = 1;q<tabla.size();q++){
             System.out.println(tabla.get(q).ide +" "+ tabla.get(q).tipo +" "+ tabla.get(q).num_linea + " " + tabla.get(q).tamaño);
         }
@@ -84,16 +83,15 @@ public class genIntermedio {
             }
         }
         d.add("}");
-        /*for(int i = 0; i<d.size();i++){
+        for(int i = 0; i<d.size();i++){
             System.out.println(d.get(i));
-        }*/
+        }
     }
     
     private void notacionP(){
-        buffer = new ArrayList<String>();
-        buffer2 = new ArrayList<String>();
-        bufferOP = new ArrayList<String>();
-        boolean parentesis = false;
+        buffer = new ArrayList<>();
+        buffer2 = new ArrayList<>();
+        bufferOP = new ArrayList<>();
         
         while (!p.lexema.equals(";")){
             if(p.token >=100 && p.token <= 102){
@@ -240,24 +238,77 @@ public class genIntermedio {
                     }
                 }
             }
+            for(int j = 0; j < buffer2.size();j++){
+                d.add(buffer2.get(j));
+            }
+                    
         }
         else{
-            String texto = "";
-            String operaciones = "";
+            bufferOP = new ArrayList<>();
+            int puntero = 0;
+            
             for(int i = 0; i < buffer.size();i++){
-                texto = texto+buffer.get(i);
+                bufferOP = new ArrayList<>();
+                if(buffer.size() == 3){
+                    String guardo = null;
+            
+                    for(int k = 0; k < buffer.size();k++){
+                        if(buffer.get(k).equals("+")||buffer.get(k).equals("-")||buffer.get(k).equals("*")||
+                                buffer.get(k).equals("/")||buffer.get(k).equals("^")||buffer.get(k).equals("=")){
+                            bufferOP.add(buffer.get(k));
+                            bufferOP.add(guardo);
+                        }
+                        else{
+                            if(bufferOP.isEmpty()){
+                                bufferOP.add(buffer.get(k));
+                        }else{
+                                guardo = buffer.get(k);
+                                //buffer2.add(buffer.get(i));
+                            }
+                        }
+                    }
+                    
+                    for(int j = 0; j < bufferOP.size();j++){
+                        d.add(bufferOP.get(j));
+                    }
+                    
+                    //d.add(";");
+                    
+                    break;
+                }
+                if(buffer.get(i).equals("+")||buffer.get(i).equals("-")||buffer.get(i).equals("*")||
+                        buffer.get(i).equals("/")||buffer.get(i).equals("^")||buffer.get(i).equals("=")){
+                    //Si encuentra
+
+                    bufferOP.add("t"+puntero);
+                    bufferOP.add("=");
+                    
+                    //System.out.println(buffer.get(i) + buffer.get(i-2) + buffer.get(i-1));
+                    bufferOP.add(buffer.get(i-2));
+                    bufferOP.add(buffer.get(i));
+                    bufferOP.add(buffer.get(i-1));
+                    
+                    buffer.add(i,"t"+puntero);
+                    
+                    buffer.remove(i-1);
+                    buffer.remove(i-2);
+                    buffer.remove(i-1);
+                    
+                    //String algo = "";
+            
+                    for(int j = 0; j < bufferOP.size();j++){
+                        d.add(bufferOP.get(j));
+                    }
+                    
+                    d.add(";");
+            
+                    //System.out.println("Operacion: "+algo);
+                    
+                    i=0;
+                    puntero = puntero +1;
+                }
             }
-            for(int i = 0; i < bufferOP.size();i++){
-                operaciones = operaciones+bufferOP.get(i);
-            }
-            System.out.println("Valores: "+texto+". Operadores: "+operaciones);
         }
-        
-        String texto = "";
-        for(int i = 0; i < buffer2.size();i++){
-            texto = texto+buffer2.get(i);
-        }
-        System.out.println("Operacion: "+texto);
     }
     
     private void declararVariables(){
@@ -289,8 +340,9 @@ public class genIntermedio {
         }
     }
     
-    private void condicionales(){
-        if(p.lexema.equals("(")){   //Falta
+    //Fata de realizar
+    private void condicionales(){ 
+        if(p.lexema.equals("(")){   
             d.add(p.lexema);
             p = p.sig;
         }
