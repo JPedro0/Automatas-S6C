@@ -82,9 +82,9 @@ public class genIntermedio {
             }
         }
         d.add("}");
-        /*for(int i = 0; i<d.size();i++){
+        for(int i = 0; i<d.size();i++){
             System.out.println(d.get(i));
-        }*/
+        }
     }
     
     private void notacionP(){
@@ -380,12 +380,13 @@ public class genIntermedio {
                     bufferOP.add(w.lexema);
                 }else{
                     if(bufferOP.get(bufferOP.size()-1).equals("+")||bufferOP.get(bufferOP.size()-1).equals("-")){
-                        System.out.println("a");
+                        //System.out.println("a");
                         for(int i = (bufferOP.size()-1); i >= 0;i--){
                             if(bufferOP.get(i).equals("(") || bufferOP.get(i).equals("=")){
                                 break;
                             }
                             else{
+                                bufferOP.add(w.lexema);
                                 buffer.add(bufferOP.get(bufferOP.size()-1));
                                 bufferOP.remove(bufferOP.size()-1);
                             }
@@ -476,12 +477,154 @@ public class genIntermedio {
             }
         }
         
-        String texto = "";
+        /*String texto = "";
         String ope = "";
         for(int n=0;n<buffer.size();n++){
             texto=texto+buffer.get(n);
         }
-        System.out.println("Operacion: "+texto);
+        System.out.println("Operacion: "+texto);*/
+        
+        if(buffer.size() == 3){
+            String guardo = null;
+            
+            for(int i = 0; i < buffer.size();i++){
+                if(buffer.get(i).equals("+")||buffer.get(i).equals("-")||buffer.get(i).equals("*")||
+                        buffer.get(i).equals("/")||buffer.get(i).equals("^")||buffer.get(i).equals("=")||
+                        buffer.get(i).equals(">")||buffer.get(i).equals("<")||buffer.get(i).equals("==")||
+                        buffer.get(i).equals(">=")||buffer.get(i).equals("<=")||buffer.get(i).equals("!=")){
+                        
+                    buffer2.add(buffer.get(i));
+                    buffer2.add(guardo);
+                    
+                }
+                else{
+                    if(buffer2.isEmpty()){
+                        buffer2.add("t0");
+                        buffer2.add("=");
+                        buffer2.add(buffer.get(i));
+                    }else{
+                        guardo = buffer.get(i);
+                        //buffer2.add(buffer.get(i));
+                    }
+                }
+            }
+            buffer2.add(";");
+            
+            /*String texto = "";
+            for(int n=0;n<buffer2.size();n++){
+                texto=texto+buffer2.get(n);
+            }
+            System.out.println("Operacion2: "+texto);*/
+            
+
+            for(int j = 0; j < buffer2.size();j++){
+                d.add(buffer2.get(j));
+            }
+            
+            d.add(p.lexema);
+            p=p.sig;
+            d.add(p.lexema);
+            p=p.sig;
+            d.add("t0");
+            d.add(")");
+                    
+        }
+        else{
+            bufferOP = new ArrayList<>();
+            int puntero = 0;
+            
+            for(int i = 0; i < buffer.size();i++){
+                bufferOP = new ArrayList<>();
+                if(buffer.size() == 3){
+                    String guardo = null;
+                    
+                    bufferOP.add("t"+puntero);
+                    bufferOP.add("=");
+            
+                    for(int k = 0; k < buffer.size();k++){
+                        //System.out.println(buffer.get(k));
+                        if(buffer.get(k).equals(">")||buffer.get(k).equals("<")||buffer.get(k).equals("==")||
+                                buffer.get(k).equals(">=")||buffer.get(k).equals("<=")||buffer.get(k).equals("!=")){
+
+                            bufferOP.add(buffer.get(k));
+                            bufferOP.add(guardo);
+                        }
+                        else{
+                            if(bufferOP.size()==2){
+                                bufferOP.add(buffer.get(k));
+                            }else{
+                                guardo = buffer.get(k);
+                                //buffer2.add(buffer.get(i));
+                            }
+                        }
+                    }
+                    
+                    bufferOP.add(";");
+                    
+                    /*String texto = "";
+                    for(int n=0;n<bufferOP.size();n++){
+                        texto=texto+bufferOP.get(n);
+                    }
+                    System.out.println("Operacion4: "+texto);*/
+                    
+                    for(int j = 0; j < bufferOP.size();j++){
+                        d.add(bufferOP.get(j));
+                    }
+                    
+                    d.add(p.lexema);
+                    p=p.sig;
+                    d.add(p.lexema);
+                    p=p.sig;
+                    d.add("t"+puntero);
+                    d.add(")");
+                    
+                    //d.add(";");
+                    
+                    break;
+                }
+                if(buffer.get(i).equals("+")||buffer.get(i).equals("-")||buffer.get(i).equals("*")||
+                        buffer.get(i).equals("/")||buffer.get(i).equals("^")||buffer.get(i).equals("=")||
+                        buffer.get(i).equals(">")||buffer.get(i).equals("<")||buffer.get(i).equals("==")||
+                        buffer.get(i).equals(">=")||buffer.get(i).equals("<=")||buffer.get(i).equals("!=")){
+                    //Si encuentra
+
+                    bufferOP.add("t"+puntero);
+                    bufferOP.add("=");
+                    
+                    //System.out.println(buffer.get(i) + buffer.get(i-2) + buffer.get(i-1));
+                    bufferOP.add(buffer.get(i-2));
+                    bufferOP.add(buffer.get(i));
+                    bufferOP.add(buffer.get(i-1));
+                    
+                    buffer.add(i,"t"+puntero);
+                    
+                    buffer.remove(i-1);
+                    buffer.remove(i-2);
+                    buffer.remove(i-1);
+                    
+                    bufferOP.add(";");
+                    
+                    /*String texto = "";
+                    for(int n=0;n<bufferOP.size();n++){
+                        texto=texto+bufferOP.get(n);
+                    }
+                    System.out.println("Operacion3: "+texto);*/
+            
+                    for(int j = 0; j < bufferOP.size();j++){
+                        d.add(bufferOP.get(j));
+                    }
+                    
+                    //d.add(";");
+            
+                    //System.out.println("Operacion: "+algo);
+                    
+                    i=0;
+                    puntero = puntero +1;
+                }
+            }
+            
+        }
+        
         p=w;
     }
 }
