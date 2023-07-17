@@ -6,6 +6,7 @@ import java.util.List;
 
 public class genIntermedio {
     nodo p,w;
+    int etiqueta = 0;
     List<simbolo> tabla;
     List<String> operaciones;
     List<String> d;
@@ -24,11 +25,11 @@ public class genIntermedio {
     }
     
     private void pruebas(){ 
-        //System.out.println(p.lexema);
+        System.out.println("IDE - TIPO - RENGLON - TAMAÑO EN MEMORIA");
         for(int q = 1;q<tabla.size();q++){
             System.out.println(tabla.get(q).ide +" "+ tabla.get(q).tipo +" "+ tabla.get(q).num_linea + " " + tabla.get(q).tamaño);
         }
-        System.out.println("\n");
+        System.out.println("\nOperaciones del programa fuente");
         for(int l = 0; l<operaciones.size();l++){
             System.out.println(operaciones.get(l));
         }
@@ -38,8 +39,7 @@ public class genIntermedio {
     
     private void generador(){
         while(p.sig != null){
-            if(p.lexema.equals("class") || p.lexema.equals("{") ||p.lexema.equals("}") 
-                    || p.lexema.equals(tabla.get(0).ide) || p.lexema.equals(";") || p.lexema.equals("else") ){
+            if(p.lexema.equals("class") || p.lexema.equals(tabla.get(0).ide) || p.lexema.equals(";")){
                 d.add(p.lexema);
                 p = p.sig;
             }
@@ -58,7 +58,41 @@ public class genIntermedio {
                     declararVariables();
                 }
             }
+            else if(p.lexema.equals("{")){
+                if(p.sig.token >= 100 && p.sig.token <=102){
+                    d.add(p.lexema);
+                    p = p.sig;
+                    d.add("L"+etiqueta+":");
+                    etiqueta = etiqueta+1;
+                }
+                else if(p.sig.token >= 200 && p.sig.token <300){
+                    d.add(p.lexema);
+                    p = p.sig;
+                    d.add("L"+etiqueta+":");
+                    etiqueta = etiqueta+1;
+                }
+                else{
+                    d.add(p.lexema);
+                    p = p.sig;
+                }
+            }
+            else if(p.lexema.equals("}") ){
+                if(d.get(d.size()-1).equals("}") || d.get(d.size()-1).equals(";")){
+                    d.add(p.lexema);
+                    p = p.sig;
+                    d.add("L"+etiqueta+":");
+                    etiqueta = etiqueta+1;
+                }
+                else{
+                    d.add(p.lexema);
+                    p = p.sig;
+                }
+            }
             else if(p.lexema.equals("while") || p.lexema.equals("if")){
+                if(p.lexema.equals("while")&& d.get(d.size()-1).charAt(0) != 'L'){
+                    d.add("L"+etiqueta+":");
+                    etiqueta = etiqueta+1;
+                }
                 w = p;
                 //p se queda en el if/while
                 w = w.sig.sig;
@@ -66,6 +100,14 @@ public class genIntermedio {
                 /*p = p.sig;
                 d.add(p.lexema);
                 p = p.sig;*/
+            }
+            else if (p.lexema.equals("else")){
+                d.add(p.lexema);
+                p = p.sig;
+                d.add(p.lexema);
+                p = p.sig;
+                d.add("L"+etiqueta+":");
+                etiqueta = etiqueta+1;
             }
             else if(p.token == 210 || p.token == 201){
                 while (!p.lexema.equals(";")){
@@ -339,7 +381,7 @@ public class genIntermedio {
         }
     }
     
-    //Fata de realizar
+   
     private void condicionales(){ 
         buffer = new ArrayList<>();
         buffer2 = new ArrayList<>();
@@ -516,10 +558,10 @@ public class genIntermedio {
             }
             System.out.println("Operacion2: "+texto);*/
             
-
             for(int j = 0; j < buffer2.size();j++){
                 d.add(buffer2.get(j));
             }
+            
             
             d.add(p.lexema);
             p=p.sig;
@@ -527,6 +569,20 @@ public class genIntermedio {
             p=p.sig;
             d.add("t0");
             d.add(")");
+            d.add("go to");
+            d.add(":");
+            d.add("L"+(etiqueta));
+            d.add(";");
+            d.add("go to");
+            d.add(":");
+            if(p.sig.lexema.equals("if")){
+                d.add("L"+(etiqueta+2));
+            }
+            else{
+                d.add("L"+(etiqueta+1));
+            }
+            d.add(";");
+            
                     
         }
         else{
@@ -575,8 +631,21 @@ public class genIntermedio {
                     p=p.sig;
                     d.add(p.lexema);
                     p=p.sig;
-                    d.add("t"+puntero);
+                    d.add("t0");
                     d.add(")");
+                    d.add("go to");
+                    d.add(":");
+                    d.add("L"+(etiqueta));
+                    d.add(";");
+                    d.add("go to");
+                    d.add(":");
+                    if(p.sig.lexema.equals("if")){
+                        d.add("L"+(etiqueta+2));
+                    }
+                    else{
+                        d.add("L"+(etiqueta+1));
+                    }
+                    d.add(";");
                     
                     //d.add(";");
                     

@@ -1,4 +1,4 @@
-/* Sintactico */
+/* Intermedio */
 
 class A{
     var a,b,c : int;
