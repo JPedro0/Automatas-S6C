@@ -19,9 +19,10 @@ public class genIntermedio {
         this.tabla = tabla;
         this.operaciones = operaciones;
         d = new ArrayList<>();
-        System.out.println("\n...GENERADOR DE CODIGO INTERMEDIO...\n");
-        pruebas();
+        System.out.println("\n...GENERADOR DE CODIGO INTERMEDIO SIN OPTIMIZAR...\n");
+        //pruebas();
         generador();
+        Optimizar();
     }
     
     private void pruebas(){ 
@@ -124,6 +125,8 @@ public class genIntermedio {
             }
         }
         d.add("}");
+        
+        //Imprimir nodos del Intermedio
         for(int i = 0; i<d.size();i++){
             System.out.println(d.get(i));
         }
@@ -381,7 +384,6 @@ public class genIntermedio {
         }
     }
     
-   
     private void condicionales(){ 
         buffer = new ArrayList<>();
         buffer2 = new ArrayList<>();
@@ -564,6 +566,7 @@ public class genIntermedio {
             
             
             d.add(p.lexema);
+            //System.out.println("1"+p.lexema);
             p=p.sig;
             d.add(p.lexema);
             p=p.sig;
@@ -575,7 +578,8 @@ public class genIntermedio {
             d.add(";");
             d.add("go to");
             d.add(":");
-            if(p.sig.lexema.equals("if")){
+            //System.out.println("2 "+w.sig.sig.lexema);
+            if(w.sig.sig.lexema.equals("if") || w.sig.sig.lexema.equals("while")){
                 d.add("L"+(etiqueta+2));
             }
             else{
@@ -639,7 +643,7 @@ public class genIntermedio {
                     d.add(";");
                     d.add("go to");
                     d.add(":");
-                    if(p.sig.lexema.equals("if")){
+                    if(w.sig.sig.lexema.equals("if") || w.sig.sig.lexema.equals("while")){
                         d.add("L"+(etiqueta+2));
                     }
                     else{
@@ -695,5 +699,9 @@ public class genIntermedio {
         }
         
         p=w;
+    }
+    
+    private void Optimizar(){
+        optimizador optimizar = new optimizador(d,tabla,operaciones);
     }
 }

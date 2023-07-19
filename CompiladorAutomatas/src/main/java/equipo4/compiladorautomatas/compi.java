@@ -188,7 +188,8 @@ public class compi {
                     break;
                 }
             }
-            imprimirNodo();
+            System.out.println("\n...ANALISADOR LEXICO...\n");
+            //imprimirNodo();
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
