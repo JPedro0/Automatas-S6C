@@ -6,6 +6,8 @@ import java.util.List;
 
 public class optimizador {
     int etiqueta = 0;
+    boolean reroll = false;
+    double x,y,z;
     List<simbolo> tabla;
     List<String> operaciones;
     List<String> d;
@@ -24,15 +26,36 @@ public class optimizador {
     }
     
     private void pruebas(){ 
-        System.out.println("IDE - TIPO - RENGLON - TAMAÑO EN MEMORIA");
-        for(int q = 1;q<tabla.size();q++){
-            System.out.println(tabla.get(q).ide +" "+ tabla.get(q).tipo +" "+ tabla.get(q).num_linea + " " + tabla.get(q).tamaño);
+        for(int i = 0; i<d.size();i++){
+            if(d.get(i).charAt(0) == 't'){
+                if(d.get(i+2).charAt(0)=='0' || d.get(i+2).charAt(0)=='1' || d.get(i+2).charAt(0)=='2'
+                        || d.get(i+2).charAt(0)=='3'|| d.get(i+2).charAt(0)=='4'|| d.get(i+2).charAt(0)=='5'
+                        || d.get(i+2).charAt(0)=='6'|| d.get(i+2).charAt(0)=='7'|| d.get(i+2).charAt(0)=='8'
+                        || d.get(i+2).charAt(0)=='9'){
+                    if(d.get(i+4).charAt(0)=='0' || d.get(i+4).charAt(0)=='1' || d.get(i+4).charAt(0)=='2'
+                        || d.get(i+4).charAt(0)=='3'|| d.get(i+4).charAt(0)=='4'|| d.get(i+4).charAt(0)=='5'
+                        || d.get(i+4).charAt(0)=='6'|| d.get(i+4).charAt(0)=='7'|| d.get(i+4).charAt(0)=='8'
+                        || d.get(i+4).charAt(0)=='9'){
+                        System.out.println("Numero: "+d.get(i+2));
+                        System.out.println("Numero: "+d.get(i+4));
+                        
+                        x = Double.parseDouble(d.get(i+2));
+                        y = Double.parseDouble(d.get(i+4));
+                        if(d.get(i+3).equals("+"))
+                            z=x+y;
+                        if(d.get(i+3).equals("-"))
+                            z=x-y;
+                        if(d.get(i+3).equals("*"))
+                            z=x*y;
+                        if(d.get(i+3).equals("/"))
+                            z=x/y;
+                        System.out.println("Resultado: "+z);
+                        
+                        reroll = true;
+                    }
+                }
+            }
+            System.out.println(d.get(i));
         }
-        System.out.println("\nOperaciones del programa fuente");
-        for(int l = 0; l<operaciones.size();l++){
-            System.out.println(operaciones.get(l));
-        }
-        System.out.println("\n");
-        
     }
 }
