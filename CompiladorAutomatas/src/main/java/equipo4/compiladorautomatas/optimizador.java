@@ -12,9 +12,6 @@ public class optimizador {
     List<String> operaciones;
     List<String> d;
     List<String> j;
-    /*List<String> buffer;
-    List<String> buffer2;
-    List<String> bufferOP;*/
     
     optimizador(List<String> d,List<simbolo> tabla, List<String> operaciones){
         this.d = d;
@@ -136,8 +133,6 @@ public class optimizador {
                         //System.out.println(d.get(h+2));
                         d.set(h+2, "t"+(etiqueta-1));
                     }
-                }
-                if(d.get(i+3).equals("*")){
                     if(d.get(i+2).charAt(0)=='0' || d.get(i+2).charAt(0)=='1' || d.get(i+2).charAt(0)=='2'
                         || d.get(i+2).charAt(0)=='3'|| d.get(i+2).charAt(0)=='4'|| d.get(i+2).charAt(0)=='5'
                         || d.get(i+2).charAt(0)=='6'|| d.get(i+2).charAt(0)=='7'|| d.get(i+2).charAt(0)=='8'
@@ -162,7 +157,50 @@ public class optimizador {
                         
                         int a=0;
                         for(int l=i;l<(i+6);){
-                            System.out.println("ELIMINAR Valor: "+l+" . Lexema: "+d.get(l));
+                            //System.out.println("ELIMINAR Valor: "+l+" . Lexema: "+d.get(l));
+                            d.remove(l);
+                            a=a+1;
+                            if(a==6)
+                                break;
+                        }
+
+                        int h=i;
+                        for(int l=0;l<j.size();l++){
+                            d.add(h,j.get(l));
+                            h=h+1;
+                            //System.out.println("Valor: "+j.size()+" . Lexema: "+j.get(l));
+                        }
+                        
+                        //System.out.println(d.get(h+2));
+                        d.set(h+2, "t"+(etiqueta-1));
+                    }
+                }
+                if(d.get(i+3).equals("^")){
+                    if(d.get(i+4).charAt(0)=='0' || d.get(i+4).charAt(0)=='1' || d.get(i+4).charAt(0)=='2'
+                        || d.get(i+4).charAt(0)=='3'|| d.get(i+4).charAt(0)=='4'|| d.get(i+4).charAt(0)=='5'
+                        || d.get(i+4).charAt(0)=='6'|| d.get(i+4).charAt(0)=='7'|| d.get(i+4).charAt(0)=='8'
+                        || d.get(i+4).charAt(0)=='9' || d.get(i+4).charAt(0)=='-'){
+                                                
+                        y = Double.parseDouble(d.get(i+4));
+                        
+                        for(int l=1;l<y;l++){
+                            j.add("t"+etiqueta);
+                            j.add("=");
+                            j.add(d.get(i+2));
+                            j.add("*");
+                            if(etiqueta==0){
+                                j.add(d.get(i+2));
+                            }
+                            else{
+                                j.add("t"+(etiqueta-1));
+                            }
+                            j.add(";");
+                            etiqueta = etiqueta+1;
+                        }
+
+                        int a=0;
+                        for(int l=i;l<(i+6);){
+                            //System.out.println("ELIMINAR Valor: "+l+" . Lexema: "+d.get(l));
                             d.remove(l);
                             a=a+1;
                             if(a==6)
