@@ -128,7 +128,7 @@ public class genIntermedio {
         
         //Imprimir nodos del Intermedio
         for(int i = 0; i<d.size();i++){
-            System.out.println(d.get(i));
+            System.out.println("Valor: "+i+" . Lexema: "+d.get(i));
         }
     }
     
@@ -635,7 +635,7 @@ public class genIntermedio {
                     p=p.sig;
                     d.add(p.lexema);
                     p=p.sig;
-                    d.add("t0");
+                    d.add("t"+puntero);
                     d.add(")");
                     d.add("go to");
                     d.add(":");
