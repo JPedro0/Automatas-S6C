@@ -609,7 +609,7 @@ public class compi {
                             operacion = new ArrayList<>();
                             
                             if (p.sig == null) {
-                                System.out.println("Error 509: Se espera un }");
+                                System.out.println("Error 509: Se espera un }. Renglon: "+p.renglon);
                                 System.exit(0);
                                 break;
                             } else {
@@ -617,7 +617,7 @@ public class compi {
                                 if (p.token == 123) {
                                     //vacio
                                 } else {
-                                    System.out.println("Error 509: Se espera un }");
+                                    System.out.println("Error 509: Se espera un }. Renglon: "+p.renglon);
                                     System.exit(0);
                                 }
                             }
@@ -810,7 +810,7 @@ public class compi {
             p = p.sig;
         } else {
             //System.out.println(p.lexema);
-            System.out.println("Error 521: Se espera un OPERADOR RELACIONAL");
+            System.out.println("Error 521: Se espera un OPERADOR RELACIONAL. Renglon: "+p.renglon);
             System.exit(0);
         }
     }

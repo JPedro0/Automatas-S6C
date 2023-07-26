@@ -12,9 +12,11 @@ public class optimizador {
     List<String> operaciones;
     List<String> d;
     List<String> j;
+    List<String> sin;
     
     optimizador(List<String> d,List<simbolo> tabla, List<String> operaciones){
         this.d = d;
+        this.sin = d;
         this.tabla = tabla;
         this.operaciones = operaciones;
         j = new ArrayList<>();
@@ -22,6 +24,7 @@ public class optimizador {
         folding();
         reduPotencia();
         imprimir();
+        ensa();
     }
     
     private void folding(){ 
@@ -221,5 +224,9 @@ public class optimizador {
             }
             //System.out.println("Valor: "+i+" . Lexema: "+d.get(i));
         }
+    }
+    
+    private void ensa(){
+        ensamblador ensa = new ensamblador(d,tabla);
     }
 }

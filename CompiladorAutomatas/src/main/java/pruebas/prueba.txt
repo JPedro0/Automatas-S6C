@@ -2,35 +2,39 @@
 
 class A{
     var a,b,c : int;
-    var anidado, secuencial, final : string;
+    var instruccion1, anidado, final : string;
     var variable : bool;
 
+    a = 9;
+    instruccion1 = "Ingrese un numero";
+    anidado = "El numero actual es:";
+    final = "programa terminado";
+    variable = true;
+    c = 5 * (5 + 8);
     read (b);
     print (b);
-    a = 9;
-    secuencial = "Hola";
-    variable = true;
-    c = 5 * (5 - 8);
-    b = 5 * c;
-    while(a>=b){
+
+    while(c>=b){
         while(5+5*4<c){
-            variable = true;
+            c = 0;
         }
     }
-    while(anidado==secuencial){
-        print (secuencial);
+    while(a!=b){
+        b = b + 1;
     }
 
-    if(c==a){ 
+    a = c;
+
+    if(c==a){
         if(b!=a){
             print (anidado);
             variable = true;
         }
     }
-    if(b!=a){
-        variable = true;
+    if(variable==true){
+        print (b);
     }
     else{
-        variable = false;
+        print (a);
     }
 }
