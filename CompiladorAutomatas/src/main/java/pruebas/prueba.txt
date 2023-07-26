@@ -5,17 +5,18 @@ class A{
     var instruccion1, anidado, final : string;
     var variable : bool;
 
-    a = 9;
+    a = 1;
     instruccion1 = "Ingrese un numero";
     anidado = "El numero actual es:";
     final = "programa terminado";
     variable = true;
-    c = 5 * (5 + 8);
+    c = 2 * (2 + 1);
+
     read (b);
     print (b);
 
     while(c>=b){
-        while(5+5*4<c){
+        while(5<c){
             c = 0;
         }
     }

@@ -43,10 +43,8 @@ public class ensamblador {
             if (origen.get(i).charAt(0)== 'L' && origen.get(i).charAt(origen.get(i).length()-1) == ':'){
                 codigo.add("\t"+origen.get(i));
             }
-            for(int j=1;j<tabla.size();j++){
-                if(origen.get(i).equals(tabla.get(j).ide) && origen.get(i+1).equals("=")){
-                    codigo.add(origen.get(i));
-                }
+            if (origen.get(i).equals("=") && origen.get(i +2).equals(";")){
+                codigo.add("\tmov "+origen.get(i-1)+",'"+origen.get(i+1)+"'");
             }
             if(origen.get(i).equals("if")){
                 codigo.add(origen.get(i));
@@ -58,10 +56,59 @@ public class ensamblador {
                 codigo.add(origen.get(i));
             }
             if(origen.get(i).equals("read")){
-                codigo.add(origen.get(i));
+                codigo.add("\tcall leerCaracter");
+                codigo.add("\tmov "+origen.get(i+2)+",al");
             }
             if(origen.get(i).equals("print")){
-                codigo.add(origen.get(i));
+                codigo.add("\tmov dx, OFFSET "+origen.get(i+2));
+                codigo.add("\tcall printPantalla");
+            }
+            if(origen.get(i).equals("+")){
+                codigo.add("\tmov bl,"+origen.get(i-1));
+                codigo.add("\tadd bl,"+origen.get(i+1));
+                codigo.add("\tadd bl,48");
+                codigo.add("\tmov "+origen.get(i-3)+",bl");
+            }
+            if(origen.get(i).equals("-")){
+                codigo.add("\tmov bl,"+origen.get(i-1));
+                codigo.add("\tsub bl,"+origen.get(i+1));
+                codigo.add("\tadd bl,48");
+                codigo.add("\tmov "+origen.get(i-3)+",bl");
+            }
+            if(origen.get(i).equals("*")){
+                codigo.add("\tmov eax,"+origen.get(i-1));
+                codigo.add("\tmov ebx,"+origen.get(i+1));
+                codigo.add("\tmul ebx");
+                codigo.add("\tmov "+origen.get(i-3)+",eax");
+                codigo.add("\tadd "+origen.get(i-3)+",48");
+            }
+            if(origen.get(i).equals("/")){
+                codigo.add("\tmov eax,"+origen.get(i-1));
+                codigo.add("\tmov ebx,"+origen.get(i+1));
+                codigo.add("\tdiv ebx");
+                codigo.add("\tmov "+origen.get(i-3)+",eax");
+                codigo.add("\tadd "+origen.get(i-3)+",48");
+            }
+            if(origen.get(i).equals("^")){
+                codigo.add(origen.get(i-3));
+            }
+            if(origen.get(i).equals("<")){
+                codigo.add(origen.get(i-3));
+            }
+            if(origen.get(i).equals("<=")){
+                codigo.add(origen.get(i-3));
+            }
+            if(origen.get(i).equals(">")){
+                codigo.add(origen.get(i-3));
+            }
+            if(origen.get(i).equals(">=")){
+                codigo.add(origen.get(i-3));
+            }
+            if(origen.get(i).equals("==")){
+                codigo.add(origen.get(i-3));
+            }
+            if(origen.get(i).equals("!=")){
+                codigo.add(origen.get(i-3));
             }
             
             
