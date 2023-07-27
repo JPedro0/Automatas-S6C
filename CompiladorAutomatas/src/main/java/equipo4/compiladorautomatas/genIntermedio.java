@@ -7,6 +7,8 @@ import java.util.List;
 public class genIntermedio {
     nodo p,w;
     int etiqueta = 0;
+    String jump = "";
+    Boolean mientras = false, si = false;
     List<simbolo> tabla;
     List<String> operaciones;
     List<String> d;
@@ -39,6 +41,9 @@ public class genIntermedio {
     }
     
     private void generador(){
+        jump = "";
+        mientras = false;
+        si = false;
         while(p.sig != null){
             if(p.lexema.equals("class") || p.lexema.equals(tabla.get(0).ide) || p.lexema.equals(";")){
                 d.add(p.lexema);
@@ -81,6 +86,19 @@ public class genIntermedio {
                 if(d.get(d.size()-1).equals("}") || d.get(d.size()-1).equals(";")){
                     d.add(p.lexema);
                     p = p.sig;
+                    if(jump != "" && mientras){
+                        d.add("go to");
+                        d.add(":");
+                        d.add(jump);
+                        jump = "";
+                        mientras = false;
+                    }
+                    if(si && p.lexema.equals("else")){
+                        d.add("go to");
+                        d.add(":");
+                        d.add("L"+(etiqueta+2));
+                        si = false;
+                    }
                     d.add("L"+etiqueta+":");
                     etiqueta = etiqueta+1;
                 }
@@ -94,6 +112,10 @@ public class genIntermedio {
                     d.add("L"+etiqueta+":");
                     etiqueta = etiqueta+1;
                 }
+                if(p.lexema.equals("while"))
+                    mientras = true;
+                if(p.lexema.equals("if"))
+                    si = true;
                 w = p;
                 //p se queda en el if/while
                 w = w.sig.sig;
@@ -581,9 +603,11 @@ public class genIntermedio {
             //System.out.println("2 "+w.sig.sig.lexema);
             if(w.sig.sig.lexema.equals("if") || w.sig.sig.lexema.equals("while")){
                 d.add("L"+(etiqueta+2));
+                jump = "L"+(etiqueta);
             }
             else{
                 d.add("L"+(etiqueta+1));
+                jump = "L"+(etiqueta);
             }
             d.add(";");
             
@@ -645,9 +669,11 @@ public class genIntermedio {
                     d.add(":");
                     if(w.sig.sig.lexema.equals("if") || w.sig.sig.lexema.equals("while")){
                         d.add("L"+(etiqueta+2));
+                        jump = "L"+(etiqueta);
                     }
                     else{
                         d.add("L"+(etiqueta+1));
+                        jump = "L"+(etiqueta);
                     }
                     d.add(";");
                     

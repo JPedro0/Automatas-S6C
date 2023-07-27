@@ -9,6 +9,7 @@ public class ensamblador {
     List<simbolo> tabla;
     List<String> origen;
     List<String> codigo;
+    int logica = 0;
     
     ensamblador(List<String> d,List<simbolo> tabla){
         this.tabla = tabla;
@@ -32,6 +33,7 @@ public class ensamblador {
     }
     
     private void recorredor(){
+        logica = 0;
         codigo.add(".CODE");
         codigo.add(".STARTUP");
         //Codigo para iniciar
@@ -46,14 +48,67 @@ public class ensamblador {
             if (origen.get(i).equals("=") && origen.get(i +2).equals(";")){
                 codigo.add("\tmov "+origen.get(i-1)+",'"+origen.get(i+1)+"'");
             }
-            if(origen.get(i).equals("if")){
-                codigo.add(origen.get(i));
+            if(origen.get(i).equals("go to") && !origen.get(i+3).equals(";")){
+                codigo.add("\tjmp "+origen.get(i+2));
             }
-            if(origen.get(i).equals("else")){
-                codigo.add(origen.get(i));
+            if(origen.get(i).equals("if")){
+                switch (logica){
+                    case 1:
+                        codigo.add("\tjl "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                    case 2:
+                        codigo.add("\tjle "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                    case 3:
+                        codigo.add("\tjg "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                    case 4:
+                        codigo.add("\tjge "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                    case 5:
+                        codigo.add("\tje "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                    case 6:
+                        codigo.add("\tjne "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                }
+                logica = 0;
+                        
             }
             if(origen.get(i).equals("while")){
-                codigo.add(origen.get(i));
+                switch (logica){
+                    case 1:
+                        codigo.add("\tjl "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                    case 2:
+                        codigo.add("\tjle "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                    case 3:
+                        codigo.add("\tjg "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                    case 4:
+                        codigo.add("\tjge "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                    case 5:
+                        codigo.add("\tje "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                    case 6:
+                        codigo.add("\tjne "+origen.get(i+6));
+                        codigo.add("\tjmp "+origen.get(i+9));
+                        break;
+                }
+                logica = 0;
             }
             if(origen.get(i).equals("read")){
                 codigo.add("\tcall leerCaracter");
@@ -90,25 +145,47 @@ public class ensamblador {
                 codigo.add("\tadd "+origen.get(i-3)+",48");
             }
             if(origen.get(i).equals("^")){
-                codigo.add(origen.get(i-3));
+                codigo.add("\tmov eax,"+origen.get(i-1));
+                codigo.add("\tmov ebx,"+origen.get(i+1));
+                codigo.add("\tmul ebx");
+                codigo.add("\tmov "+origen.get(i-3)+",eax");
+                codigo.add("\tadd "+origen.get(i-3)+",48");
             }
-            if(origen.get(i).equals("<")){
-                codigo.add(origen.get(i-3));
+            if(origen.get(i).equals("<")){ //1
+                codigo.add("\tmov al,"+origen.get(i-1));
+                codigo.add("\tmov bl,"+origen.get(i+1));
+                codigo.add("\tcmp al, bl");
+                logica = 1;
             }
-            if(origen.get(i).equals("<=")){
-                codigo.add(origen.get(i-3));
+            if(origen.get(i).equals("<=")){ //2
+                codigo.add("\tmov al,"+origen.get(i-1));
+                codigo.add("\tmov bl,"+origen.get(i+1));
+                codigo.add("\tcmp al, bl");
+                logica = 2;
             }
-            if(origen.get(i).equals(">")){
-                codigo.add(origen.get(i-3));
+            if(origen.get(i).equals(">")){ //3
+                codigo.add("\tmov al,"+origen.get(i-1));
+                codigo.add("\tmov bl,"+origen.get(i+1));
+                codigo.add("\tcmp al, bl");
+                logica = 3;
             }
-            if(origen.get(i).equals(">=")){
-                codigo.add(origen.get(i-3));
+            if(origen.get(i).equals(">=")){ //4
+                codigo.add("\tmov al,"+origen.get(i-1));
+                codigo.add("\tmov bl,"+origen.get(i+1));
+                codigo.add("\tcmp al, bl");
+                logica = 4;
             }
-            if(origen.get(i).equals("==")){
-                codigo.add(origen.get(i-3));
+            if(origen.get(i).equals("==")){     //5
+                codigo.add("\tmov al,"+origen.get(i-1));
+                codigo.add("\tmov bl,"+origen.get(i+1));
+                codigo.add("\tcmp al, bl");
+                logica = 5;
             }
-            if(origen.get(i).equals("!=")){
-                codigo.add(origen.get(i-3));
+            if(origen.get(i).equals("!=")){ //6
+                codigo.add("\tmov al,"+origen.get(i-1));
+                codigo.add("\tmov bl,"+origen.get(i+1));
+                codigo.add("\tcmp al, bl");
+                logica = 6;
             }
             
             

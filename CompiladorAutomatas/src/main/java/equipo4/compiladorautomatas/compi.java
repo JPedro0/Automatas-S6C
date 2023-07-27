@@ -14,7 +14,7 @@ public class compi {
     List<String> operacion = new ArrayList<>();
     List<String> operaciones = new ArrayList<>();
 
-    String archivo = "C:\\Users\\nuevo\\Desktop\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
+    String archivo = "E:\\Users\\jpedr\\Escritorio\\CompiladorAutomatas\\src\\main\\java\\pruebas\\prueba.txt";
 
     int matriz[][] = {
         /*      l       d       .       +       -       *       /       ^       >       <       =       !       &       |       ,       :       ;       (       )       {       }       "       ed      tab     nl      oc      eof*/
